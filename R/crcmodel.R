@@ -36,9 +36,6 @@ crcmodel <- R6::R6Class(
     #' @field posterior_params is a data.frame containing parameters from the posterior distribution of the model. This table is set with the set_posterior function.
     posterior_params = NULL,
 
-    #' @field simulate_natural_history_fn is the function used to simulate the natural history.
-    simulate_natural_history_fn = NULL,
-
     #' @field simulate_screening_fn is is the function used to simulate screening.
     simulate_screening_fn = NULL,
 
