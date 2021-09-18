@@ -22,6 +22,10 @@
 # See documentation within the crcmodel file.
 crcmodel_set_input = function(self, name, value, type) {
 
+  if(missing(type)){
+    type = "default"
+  }
+
   # if input already exists, then update the table:
   if(name %in% self$inputs_table$name){
 
@@ -32,6 +36,12 @@ crcmodel_set_input = function(self, name, value, type) {
 
     # Also, checking type:
     assertthat::assert_that(assertthat::are_equal(typeof(self$inputs[[name]]), typeof(value)), msg= paste0("You are not allowed to replace the input ", name, " which was ", typeof(self$inputs[[name]]), " with an object of type ", typeof(value)))
+
+    # Let's also check that the length of the objects are the same:
+
+    if(length(self$inputs[[name]]) != length(value)){
+      warning(paste0("You are replacing the input ", name, " which had length ", length(self$inputs[[name]]), " with an object of length ", length(value)))
+    }
 
     # Replace type with the provided type
     self$inputs_table$type[which(self$inputs_table$name == name)] = type
