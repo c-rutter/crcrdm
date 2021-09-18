@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# crcrdm: A package to facilitate Robust Decision Making analyses of CRC models
+# crcrdm: Robust Decision Making tools for CRC models
 
 <!-- badges: start -->
 
@@ -16,8 +16,21 @@ This package can be installed from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("carolyner/crc-rdm/crcspin/")
+devtools::install_github("c-rutter/crcrdm")
 ```
+
+## Usage
+
+There are two main classes implemented in this package: `crcmodel` and
+`crcexperiment`.
+
+A crcmodel object can represent any colorectal cancer model with a
+natural history component and a screening component. `crcspin` is **a**
+`crcmodel`.
+
+The `crcmodel` object exists so we can create a `crcexperiment` the
+`crcexperiment` can include one or more models and implements functions
+that help us create experimental designs with multiple models.
 
 ## Requirements for this package
 
@@ -83,13 +96,13 @@ With that in mind, this package will need to:
     3.  **HPC runs with EMEWS (&gt; 100 CPU hours):** These are useful
         to perform the actual, “production runs”.
 
-        These three modes are important and making it easy to navigate
-        between them is crucial, especially with iterative approaches
-        like RDM. This should allow modelers to do their modeling work,
-        then to scale it with HPC systems as they become confident in
-        the model - rather than having them trying to calibrate broken
-        models in HPC systems because our setup was to inflexible to
-        allow the appropriate process.
+    These three modes are important and making it easy to navigate
+    between them is crucial, especially with iterative approaches like
+    RDM. This should allow modelers to do their modeling work, then to
+    scale it with HPC systems as they become confident in the model -
+    rather than having them trying to calibrate broken models in HPC
+    systems because our setup was to inflexible to allow the appropriate
+    process.
 
 3.  **Efficiently handle long-running tasks:** Actual production runs
     can take days or weeks to complete, even with HPC resources. Our
@@ -105,94 +118,18 @@ With that in mind, this package will need to:
     This helps us to fail fast rather than waiting long runs to complete
     only to discover that something was wrong.
 
-## Key objects: `crcmodel`, `crcensemble` and `crcexperiment`
+## Key objects: `crcmodel`, and `crcexperiment`
 
-To the purposes of the RDM analysis, we envision at least three key
-classes:
+To the purposes of the RDM analysis, we envision two key classes:
 
 1.  `crcmodel` : Is the basic unit and encompasses a single model
     structure. A `crcmodel` can be either calibrated or not. if it is
-    calibrated, the model object can include or point to the results of
-    the calibration. Alternatively, we could have two objects - one for
-    the raw model and another for a calibrated model. I see pros and
-    cons for each approach.
-2.  `crcensemble` : Is a collection of calibrated models of the class
-    `crcmodel` and can include only one model (which is the base case).
-    Alternatively, the `crcensemble` could include more than one model.
-3.  `crcexperiment` : Contains the definition of a policy experiment to
-    be applied over the `crcnsemble` and can contain or only point to
-    the results of policy experiments. Running post-run analyses.
+    calibrated, the model object can include the posterior distribution
+    of its parameters.
+2.  `crcexperiment` : Contains the definition of an experiment
+    experiment to be applied over the crcmodels included in it.
 
-## Example use:
-
-The example below demonstrates how these functions could be used:
-
-``` r
-## The model wrapper doesn't need to be a middle man in R. In fact, the model can be invoked by R or EMEWS.
-
-model_path = "./EMEWS/plima/crcrdm/model1"
-output_path = "./EMEWS/plima/crcrdm/model1/outputs"
-
-
-# For example, we could have two models:
-crcmodel2.0 = crcmodel(model_path, output_path, model_function = crcspin::crcmodel2.0) %>%
-  calibrate(..., run_mode = "EMEWS")
-
-crcmodel3.0 = crcmodel(model_path, output_path, model_function = crcspin::crcmodel3.0) %>%
-  calibrate(..., run_mode = "EMEWS")
-
-# The two steps above could take an arbitrary ammount of time to finish. So, instead of trying to complete this in the R session, we will submit a job to a database of tasks that will be completed by an "EMEWS runner module".
-
-# Therefore, when the run_model == "EMEWS" the function will subit the job to a queue and will return control to the user.
-
-# Running status on the crcmodel2.0 object will cause it to query the database of runs and check on execution. We would see how many iterations were done, and how many
-status(crcmodel2.0)
-
-status(crcmodel3.0)
-
-## If there are preliminary results vailable, we can collect them to inspect how calibration is going, potentially with multiple models:
-calibration_results = get_calibration_results(crcmodel2.0, crcmodel3.0)
-
-#shows something useful / scatter or density plots and / or targets.
-plot(calibration_results) 
-
-# After calibration, we can create a model ensemble:
-
-## Creating a model ensemble - it is just a list of models.
-ensemble = crcensemble(crcmodel2.0, crcmodel3.0)
-
-# The idea of a model ensemble helps
-
-## Creating the model experiment:
-experiment = ensemble %>%
-  set_parameters(...) %>%
-  set_levers(...) %>%
-  define_experiment(lhs_sample)
-
-## Run experiment
-experiment = experiment %>%
-  run_experiment(run_mode = "EMEWS")
-
-# Just as we did with calibration, we want to check in and see how we are doing:
-run_status(experiment)
-
-## If there are preliminary results available, we can collect them to inspect preliminary results:
-experiment_results = get_experiments_results(experiment)
-
-# The experiment results is a dataframe of experiment results, and this dataframe can be used by post-processing analytical functions. For example, in the COVID-19 work, I had a analyse_regret function
-
-robustness_analysis = analyse_robustness(experiment_results)
-```
-
-## “Server-Side” module
-
-We will need a module to consume the Task queue and run it in parallel.
-In the limit, the Task queue is a person submitting EMEWS jobs and
-controlling their execution manually - which is what I think we do
-today. This document does not contain details on the server side module
-yet.
-
-## Timeline
+## Original Timeline
 
 We will complete the basic structure of this R package (iterations 1 and
 2) over the summer of 2021. By the end of this summer, we should be able
