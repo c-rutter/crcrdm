@@ -81,14 +81,14 @@ test_that("input was created", {
 
 # Loading multiple posterior data.frames:
 posterior.a = data.frame(
-  risk.mean = rtruncnorm(n = 1000, mean = 0, sd = 0.5, a = 0,b = 3),
-  risk.sd = rtruncnorm(n = 1000, mean = 1, sd = 2, a = 0,b = 10),
+  risk.mean = rnorm(n = 1000, mean = 0, sd = 0.5),
+  risk.sd = rnorm(n = 1000, mean = 1, sd = 2),
   weights = 1/1000
 )
 # Let's suppose a different calibration resulted in a different posterior:
 posterior.b = data.frame(
-  risk.mean = rtruncnorm(n = 1000, mean = 1, sd = 0.5, a = 0,b = 3),
-  risk.sd = rtruncnorm(n = 1000, mean = 0.5, sd = 2, a = 0,b = 10),
+  risk.mean = rnorm(n = 1000, mean = 1, sd = 0.5),
+  risk.sd = rnorm(n = 1000, mean = 0.5, sd = 2),
   weights = 1/1000
 )
 
