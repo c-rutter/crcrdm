@@ -5,12 +5,13 @@
 
 <!-- badges: start -->
 
+[![Build & R-CMD
+Check](https://github.com/c-rutter/crcrdm/workflows/R-CMD-check/badge.svg)](https://github.com/c-rutter/crcrdm/actions)
+[![Test
+Coverage](https://github.com/c-rutter/crcrdm/workflows/test-coverage/badge.svg)](https://github.com/c-rutter/crcrdm/actions)
+[![Coverage](https://codecov.io/gh/c-rutter/crcrdm/branch/master/graph/badge.svg)](https://codecov.io/gh/c-rutter/crcrdm/)
 [![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![R-CMD-check](https://github.com/c-rutter/crcrdm/workflows/R-CMD-check/badge.svg)](https://github.com/c-rutter/crcrdm/actions)
-[![test-coverage](https://github.com/c-rutter/crcrdm/workflows/test-coverage/badge.svg)](https://github.com/c-rutter/crcrdm/actions)
-“[![Test
-Coverage](https://codecov.io/gh/c-rutter/crcrdm/branch/master/graph/badge.svg)](https://codecov.io/gh/c-rutter/crcrdm/)”
+experimental](https://img.shields.io/badge/lifecycle-experimental-blue.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
 
 ## Installation
