@@ -36,14 +36,17 @@ crcmodel <- R6::R6Class(
     #' @field posterior_params is a data.frame containing parameters from the posterior distribution of the model. This table is set with the set_posterior function.
     posterior_params = NULL,
 
-    #' @field simulate_screening_fn is is the function used to simulate screening.
-    simulate_screening_fn = NULL,
-
     #' @field natural_history_results is the object that will receive results from the natural history function.
     natural_history_results = NULL,
 
     #' @field screening_results is the object that will receive results from the natural history function.
     screening_results = NULL,
+
+    #' @field simulate_natural_history_fn is a function that will take as parameters self and ..., simulate the natural history of crc and returns invisible(self).
+    simulate_natural_history_fn = NULL,
+
+    #' @field simulate_screening_fn is a function that will take as parameters self and ..., simulate the natural history of crc and returns invisible(self).
+    simulate_screening_fn = NULL,
 
     #' @description
     #' Create a new `crcmodel` object.
@@ -138,7 +141,7 @@ crcmodel <- R6::R6Class(
     #' @seealso set_natural_history_fn
     #' @param ... any set of parameters passed to this function will be passed along to the user natural history function.
     simulate_natural_history = function(...){
-      self$natural_history_results = self$simulate_natural_history_fn(self = self, ...)
+      self$simulate_natural_history_fn(self = self, ...)
       invisible(self)
     },
 
@@ -150,7 +153,7 @@ crcmodel <- R6::R6Class(
     #' @seealso set_screening_fn
     #' @param ... any set of parameters passed to this function will be passed along to the user screening function.
     simulate_screening = function(...){
-      self$screening_results = self$simulate_screening_fn(self = self, ...)
+      self$simulate_screening_fn(self = self, ...)
       invisible(self)
     }
 

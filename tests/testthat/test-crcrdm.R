@@ -20,14 +20,15 @@ crcspin_simulate_natural_history = function(self, ...){
 
   # Ultimately, the natural history function returns a population data.frame (also an adenoma data.frame, but it doesn't matter)
   results = data.frame(p.id = 1:self$inputs$pop.size,
-                       risk = rnorm(n = self$inputs$pop.size, mean = self$inputs$risk.mean, sd = self$inputs$risk.sd)) %>%
-    mutate(probability.event = 1-exp(-risk)) %>%
-    mutate(n.events =  rbinom(n = 1:self$inputs$pop.size, size = self$inputs$trials, prob = probability.event))
+                       risk = rnorm(n = self$inputs$pop.size, mean = self$inputs$risk.mean, sd = self$inputs$risk.sd))
 
-  # Return an object.
-  # You should avoid assigning things to the self object.
-  # This object can be anything (a list, a data.frame), and will be stored in self$natural_history_results
-  return(results)
+  results$probability.event = 1-exp(-results$risk)
+
+  results$n.events = rbinom(n = 1:self$inputs$pop.size, size = self$inputs$trials, prob = results$probability.event)
+
+  self$natural_history_results = results
+
+  invisible(self)
 
 }
 
@@ -109,3 +110,9 @@ test_that("set_posterior works with averages", {
   expect_true(nrow(model$posterior_params) == 3)
 })
 
+test_that("simulate_natural_history works", {
+  model$set_natural_history_fn(crcspin_simulate_natural_history)
+  model$simulate_natural_history()
+  expect_equal(object = nrow(model$natural_history_results),expected = model$inputs$pop.size)
+
+})
