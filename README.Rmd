@@ -21,6 +21,7 @@ knitr::opts_chunk$set(
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![R-CMD-check](https://github.com/c-rutter/crcrdm/workflows/R-CMD-check/badge.svg)](https://github.com/c-rutter/crcrdm/actions)
 [![test-coverage](https://github.com/c-rutter/crcrdm/workflows/test-coverage/badge.svg)](https://github.com/c-rutter/crcrdm/actions)
+"[![Test Coverage](https://codecov.io/gh/c-rutter/crcrdm/branch/master/graph/badge.svg)](https://codecov.io/gh/c-rutter/crcrdm/)"
 <!-- badges: end -->
 
 ## Installation
