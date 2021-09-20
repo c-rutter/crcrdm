@@ -1,8 +1,6 @@
 
 # Natural History Method --------------------------------------------------
 
-library(truncnorm)
-
 crcspin_simulate_natural_history = function(self, ...){
 
   # Inputs set to the model can be accessed with:
@@ -22,7 +20,7 @@ crcspin_simulate_natural_history = function(self, ...){
 
   # Ultimately, the natural history function returns a population data.frame (also an adenoma data.frame, but it doesn't matter)
   results = data.frame(p.id = 1:self$inputs$pop.size,
-                       risk = rtruncnorm(n = self$inputs$pop.size, a = 0, b = Inf, mean = self$inputs$risk.mean, sd = self$inputs$risk.sd)) %>%
+                       risk = rnorm(n = self$inputs$pop.size, mean = self$inputs$risk.mean, sd = self$inputs$risk.sd)) %>%
     mutate(probability.event = 1-exp(-risk)) %>%
     mutate(n.events =  rbinom(n = 1:self$inputs$pop.size, size = self$inputs$trials, prob = probability.event))
 
