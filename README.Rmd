@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 
 [![Build & R-CMD Check](https://github.com/c-rutter/crcrdm/workflows/R-CMD-check/badge.svg)](https://github.com/c-rutter/crcrdm/actions)
 [![Test Coverage](https://github.com/c-rutter/crcrdm/workflows/test-coverage/badge.svg)](https://github.com/c-rutter/crcrdm/actions)
-[![Coverage](https://codecov.io/gh/c-rutter/crcrdm/branch/master/graph/badge.svg)](https://codecov.io/gh/c-rutter/crcrdm/)
+[![codecov](https://codecov.io/gh/c-rutter/crcrdm/branch/master/graph/badge.svg?token=G4E73T9WOO)](https://codecov.io/gh/c-rutter/crcrdm)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-blue.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
 
