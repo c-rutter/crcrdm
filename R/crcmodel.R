@@ -117,6 +117,7 @@ crcmodel <- R6::R6Class(
       self$simulate_natural_history_fn <- natural_history_fn
     },
 
+
     #' @description
     #' Set Screening Function
     #'
