@@ -20,7 +20,6 @@ Imports:
     R6,
     rjson,
     stats,
-    tidyselect,
     utils
 Suggests: 
     testthat (>= 3.0.0)

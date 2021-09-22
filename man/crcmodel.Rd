@@ -24,13 +24,13 @@ set_screening_fn
 
 \item{\code{posterior_params}}{is a data.frame containing parameters from the posterior distribution of the model. This table is set with the set_posterior function.}
 
-\item{\code{simulate_natural_history_fn}}{is the function used to simulate the natural history.}
-
-\item{\code{simulate_screening_fn}}{is is the function used to simulate screening.}
-
 \item{\code{natural_history_results}}{is the object that will receive results from the natural history function.}
 
 \item{\code{screening_results}}{is the object that will receive results from the natural history function.}
+
+\item{\code{simulate_natural_history_fn}}{is a function that will take as parameters self and ..., simulate the natural history of crc and returns invisible(self).}
+
+\item{\code{simulate_screening_fn}}{is a function that will take as parameters self and ..., simulate the natural history of crc and returns invisible(self).}
 }
 \if{html}{\out{</div>}}
 }

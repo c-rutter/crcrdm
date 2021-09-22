@@ -13,6 +13,12 @@ This class implements a `crcexperiment`.
 
 \item{\code{experimental_design}}{is a table containing one row per experiment to be ran.}
 
+\item{\code{grid}}{is a table containing one row per point in the grid experimental design.}
+
+\item{\code{lhs}}{is a table containing one row per point in the lhs experimental design.}
+
+\item{\code{posteriors}}{is a table containing one row per parameter set defined in the posterior of each model included in the experiment.}
+
 \item{\code{experimental_parameters}}{is a list containing details about each experimental parameter. Experimental parameters can be either policy levers or uncertainties. Defining this distinction is up to the user.}
 }
 \if{html}{\out{</div>}}

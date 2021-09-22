@@ -1,18 +1,24 @@
 
 library(crcspin)
+library(crcrdm)
 library(dplyr)
 
 
 # Creating a model --------------------------------------------------------
 
 model = crcspin$new(name = "crcspin v2.1")
+
+
 # Set posterior:
 model$set_posterior(posteriors_list = list(v2_4 = read.csv("./dev/good.modelparms_v2_4_ABC_R5_35.csv"),
                                            v2_3 = read.csv("./dev/good.modelparms.csv")),
                     posterior_weights = "sample.wt",
-                    use_average = T,
+                    use_average = F,
                     n_posterior = 100,
                     seed = 1234)
+
+model$posterior_params
+View(model$posterior_params)
 # Deep = T guarantees that it will be duplicated.
 other_model = model$clone(deep = T)
 other_model$name = "crcspin v3.0"

@@ -22,3 +22,7 @@ NULL
 # Allowing . to be used for dplyr
 # https://stackoverflow.com/questions/48750221/dplyr-and-no-visible-binding-for-global-variable-note-in-package-check
 utils::globalVariables(".")
+
+# Exporting the where() dplyr verb, per
+# https://github.com/r-lib/tidyselect/issues/240
+utils::globalVariables("where")
