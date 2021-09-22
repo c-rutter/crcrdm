@@ -18,7 +18,9 @@ Imports:
     lhs,
     purrr,
     R6,
-    rjson
+    rjson,
+    stats,
+    utils
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

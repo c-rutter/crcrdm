@@ -17,3 +17,8 @@
 #' @name crcrdm
 #' @importFrom rjson toJSON
 NULL
+
+
+# Allowing . to be used for dplyr
+# https://stackoverflow.com/questions/48750221/dplyr-and-no-visible-binding-for-global-variable-note-in-package-check
+utils::globalVariables(".")

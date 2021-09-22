@@ -50,46 +50,6 @@ crcmodel_set_posterior = function(self, posteriors_list, posterior_weights, use_
   # it also needs to exist in the posterior file - we already checked all of them are the same, so we can just check the first one.
   assertthat::assert_that(posterior_weights %in% names_list[[1]])
 
-# Sample from Posterior ------------------------------------------
-
-  # This internal function samples from the posterior distribution. It is defined here because it is only used by the set_posterior function.
-  sample_from_posterior = function(posterior_data_frame, n_posterior, posterior_weights) {
-
-    # Assign an id to the original posterior table:
-    posterior_data_frame = posterior_data_frame %>%
-      mutate(posterior.orig.row.id = dplyr::row_number())
-
-    # Next, sample from the posterior with replacement:
-    ids_to_select = sample(x = posterior_data_frame$posterior.orig.row.id, size = n_posterior, replace = T, prob = posterior_data_frame[,posterior_weights])
-
-    # Selects these rows from the data.frame:
-    posterior_sample = posterior_data_frame[ids_to_select,] %>%
-      dplyr::mutate(posterior.df.row.id = dplyr::row_number())
-
-    return(posterior_sample)
-
-  }
-
-
-# Calculate weighted averages ------------------------------------
-
-  # This private function is used to calculate weighted averages if the user wants them.
-  calculate_weighted_averages = function(df, posterior_weights) {
-    # Calculate a normalized_weights variable to ensure that the weighted average will be correct:
-    df$normalized_weights = df[,posterior_weights] / sum(df[,posterior_weights])
-
-    # Calculate the weighted average for every numeric variable:
-    df %>%
-      # Multiply value by the normalized weights:
-      mutate(across(where(is.numeric) & !c(posterior.df.id, posterior.df.name), ~ .x * df$normalized_weights)) %>%
-      select(-normalized_weights) %>%
-      # Add them up:
-      group_by(posterior.df.id, posterior.df.name) %>%
-      summarise(across(where(is.numeric),sum), .groups = "drop") %>%
-      as.data.frame()
-  }
-
-
   # Defining the names of the posteriors:
   for(posterior_id in 1:length(names(posteriors_list)) ) {
     posteriors_list[[posterior_id]]$posterior.df.id = posterior_id
@@ -126,3 +86,48 @@ crcmodel_set_posterior = function(self, posteriors_list, posterior_weights, use_
   invisible(self)
 
 }
+
+
+
+# Auxiliary Functions -----------------------------------------------------
+
+# Sample from Posterior ------------------------------------------
+
+# This internal function samples from the posterior distribution. It is defined here because it is only used by the set_posterior function.
+sample_from_posterior = function(posterior_data_frame, n_posterior, posterior_weights) {
+
+  # Assign an id to the original posterior table:
+  posterior_data_frame = posterior_data_frame %>%
+    mutate(posterior.orig.row.id = dplyr::row_number())
+
+  # Next, sample from the posterior with replacement:
+  ids_to_select = sample(x = posterior_data_frame$posterior.orig.row.id, size = n_posterior, replace = T, prob = posterior_data_frame[,posterior_weights])
+
+  # Selects these rows from the data.frame:
+  posterior_sample = posterior_data_frame[ids_to_select,] %>%
+    dplyr::mutate(posterior.df.row.id = dplyr::row_number())
+
+  return(posterior_sample)
+
+}
+
+
+# Calculate weighted averages ------------------------------------
+
+# This private function is used to calculate weighted averages if the user wants them.
+calculate_weighted_averages = function(df, posterior_weights) {
+  # Calculate a normalized_weights variable to ensure that the weighted average will be correct:
+  df$normalized_weights = df[,posterior_weights] / sum(df[,posterior_weights])
+
+  # Calculate the weighted average for every numeric variable:
+  df %>%
+    # Multiply value by the normalized weights:
+    mutate(across(where(is.numeric) & !c(posterior.df.id, posterior.df.name), ~ .x * df$normalized_weights)) %>%
+    select(-normalized_weights) %>%
+    # Add them up:
+    group_by(posterior.df.id, posterior.df.name) %>%
+    summarise(across(where(is.numeric),sum), .groups = "drop") %>%
+    as.data.frame()
+}
+
+

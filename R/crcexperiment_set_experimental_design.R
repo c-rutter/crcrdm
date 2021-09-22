@@ -23,21 +23,11 @@
 # See documentation within the crcexperiment class.
 #' @importFrom lhs randomLHS
 #' @import dplyr
+#' @importFrom stats qunif
 crcexperiment_set_design = function(self, n_lhs, convert_lhs_to_grid, lhs_to_grid_midpoints) {
 
   # convert LHS parameters to grid if requested:
   if(convert_lhs_to_grid) {
-
-    convert_lhs_param_to_grid  = function(parameter, lhs_to_grid_midpoints) {
-      if(parameter$experimental_design == "lhs"){
-        parameter$experimental_design = "grid_lhs"
-        parameter$values = seq.default(from = parameter$min, to = parameter$max, length.out = 2+lhs_to_grid_midpoints)
-        # Clearing min and max values after using them
-        parameter$min = NULL
-        parameter$max = NULL
-      }
-      parameter
-    }
 
     # Convert all lhs parameters to grid
     self$experimental_parameters = lapply(X = self$experimental_parameters, FUN = convert_lhs_param_to_grid, lhs_to_grid_midpoints = lhs_to_grid_midpoints)
@@ -46,8 +36,7 @@ crcexperiment_set_design = function(self, n_lhs, convert_lhs_to_grid, lhs_to_gri
 
 
   ## Getting a Data.Frame of LHS Parameters
-  lhs_params = Filter(f = function(a) a$experimental_design == "lhs", self$experimental_parameters) %>%
-    do.call(rbind.data.frame, .)
+  lhs_params = do.call(rbind.data.frame, Filter(f = function(a) a$experimental_design == "lhs", self$experimental_parameters))
 
   grid_lhs_params = Filter(f = function(a) a$experimental_design == "grid_lhs", self$experimental_parameters) %>%
     sapply(., function(a) a[3]) %>%
@@ -112,12 +101,6 @@ crcexperiment_set_design = function(self, n_lhs, convert_lhs_to_grid, lhs_to_gri
   }
 
 
-  # Creating a table with all models posteriors and their parameters ids.
-  # This auxiliary function selects two columns from the posterior:
-  get_ids_from_posterior = function(posterior) {
-    posterior[,c("param.id", "model.id")]
-  }
-
   # This is a very compact way of getting exactly two columns that are within the self$models objects.
   # param.id is the parameter id within each model
   # all.posteriors.id is an id referring to the experiment design. nrow(all_models_posteriors) = max(all.posteriors.id)
@@ -151,4 +134,25 @@ self$lhs = lhs_experiments
 
   invisible(self)
 
+}
+
+
+# Auxiliary functions -----------------------------------------------------
+
+
+convert_lhs_param_to_grid  = function(parameter, lhs_to_grid_midpoints) {
+  if(parameter$experimental_design == "lhs"){
+    parameter$experimental_design = "grid_lhs"
+    parameter$values = seq.default(from = parameter$min, to = parameter$max, length.out = 2+lhs_to_grid_midpoints)
+    # Clearing min and max values after using them
+    parameter$min = NULL
+    parameter$max = NULL
+  }
+  parameter
+}
+
+# Creating a table with all models posteriors and their parameters ids.
+# This auxiliary function selects two columns from the posterior:
+get_ids_from_posterior = function(posterior) {
+  posterior[,c("param.id", "model.id")]
 }
