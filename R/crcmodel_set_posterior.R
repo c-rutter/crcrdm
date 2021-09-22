@@ -115,6 +115,7 @@ sample_from_posterior = function(posterior_data_frame, n_posterior, posterior_we
 # Calculate weighted averages ------------------------------------
 
 # This private function is used to calculate weighted averages if the user wants them.
+#' @importFrom dplyr where
 calculate_weighted_averages = function(df, posterior_weights) {
   # Calculate a normalized_weights variable to ensure that the weighted average will be correct:
   df$normalized_weights = df[,posterior_weights] / sum(df[,posterior_weights])
