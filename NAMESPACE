@@ -2,6 +2,7 @@
 
 export(crcexperiment)
 export(crcmodel)
+export(is.crcexperiment)
 export(is.crcmodel)
 import(R6)
 import(dplyr)

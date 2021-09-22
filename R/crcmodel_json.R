@@ -30,6 +30,7 @@ crcmodel_to_json <- function(self, private){
 
   # capturing the model class as a character vector string:
   x$class = class(self)
+  x$model_name = self$name
 
   json_model = rjson::toJSON(x, indent = 0)
 
@@ -55,3 +56,5 @@ crcmodel_set_inputs_from_json = function(self, json){
   return(invisible(self))
 
 }
+
+

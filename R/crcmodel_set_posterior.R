@@ -35,7 +35,8 @@ crcmodel_set_posterior = function(self, posteriors_list, posterior_weights, use_
   names_list = lapply(posteriors_list, names)
 
   # all names of the data.frames are exactly the same:
-  assertthat::assert_that(all(sapply(names_list, identical, names_list[[1]])), msg = "All dataframes in the posterior_lists should have the same parameters. each parameter data.frame must have the same names.")
+  #assertthat::assert_that(all(sapply(names_list, identical, names_list[[1]])), msg = "All dataframes in the posterior_lists should have the same parameters. each parameter data.frame must have the same names.")
+  assertthat::assert_that(all(sapply(names_list, base::setequal, names_list[[1]])), msg = "All dataframes in the posterior_lists should have the same parameters. each parameter data.frame must have the same names.")
 
   # posterior_weights must be provided:
   assertthat::assert_that(!missing(posterior_weights), msg = "posterior_weights parameter must be provided.")
@@ -48,7 +49,6 @@ crcmodel_set_posterior = function(self, posteriors_list, posterior_weights, use_
 
   # it also needs to exist in the posterior file - we already checked all of them are the same, so we can just check the first one.
   assertthat::assert_that(posterior_weights %in% names_list[[1]])
-
 
 # Sample from Posterior ------------------------------------------
 

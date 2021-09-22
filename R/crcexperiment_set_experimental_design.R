@@ -138,6 +138,11 @@ crcexperiment_set_design = function(self, n_lhs, convert_lhs_to_grid, lhs_to_gri
   }, msg = paste0("The Names of these Parameters are duplicated: ", duplicated_names))
 
 
+# Setting all posteriors object:
+self$posteriors = all_models_posteriors
+self$grid = grid_params
+self$lhs = lhs_experiments
+
 # Defining the full experimental design table (it doesn't include parameters in the posteriors because those can be different by model)
   self$experimental_design = experimental_design %>%
     left_join(grid_params, by = "grid.id") %>%

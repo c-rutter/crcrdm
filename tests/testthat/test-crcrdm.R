@@ -112,7 +112,48 @@ test_that("set_posterior works with averages", {
 
 test_that("simulate_natural_history works", {
   model$set_natural_history_fn(crcspin_simulate_natural_history)
+  set.seed(1234)
   model$simulate_natural_history()
   expect_equal(object = nrow(model$natural_history_results),expected = model$inputs$pop.size)
+})
+
+
+# Test that model can be reconstituted from json:
+json = model$to_json()
+# Re-creating the model from json:
+new_model = crcmodel$new(name = "CRCSPIN 2.1.2 - SSP")
+new_model$set_inputs_from_json(json = json)
+
+test_that("to_json and set_input_from_json work", {
+
+  expect_equal(length(new_model$inputs), length(model$inputs))
 
 })
+
+
+test_that("results from a json-converted model is identical to original model", {
+
+  new_model$set_natural_history_fn(crcspin_simulate_natural_history)
+  set.seed(1234)
+  new_model$simulate_natural_history()
+
+  expect_identical(model$natural_history_results, new_model$natural_history_results)
+
+})
+
+
+test_that("crcexperiment works", {
+
+  # An experiment can contain more than one model, each with their onw posteriors:
+  experiment = crcexperiment$new(model)
+
+  # Create an experimental design:
+  experiment$
+    set_parameter(parameter_name = "Test1",experimental_design = "grid", values = c("Colonoscopy", "FIT"))$
+    set_parameter(parameter_name = "abc",experimental_design = "lhs",min = 1, max = 10)$
+    set_design(n_lhs = 2)
+
+  expect_true(is.crcexperiment(experiment))
+
+})
+

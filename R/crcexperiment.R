@@ -30,6 +30,13 @@ crcexperiment <- R6::R6Class(
     models = NULL,
     #' @field experimental_design is a table containing one row per experiment to be ran.
     experimental_design = NULL,
+
+    #' @field grid is a table containing one row per point in the grid experimental design.
+    grid = NULL,
+    #' @field lhs is a table containing one row per point in the lhs experimental design.
+    lhs = NULL,
+    #' @field posteriors is a table containing one row per parameter set defined in the posterior of each model included in the experiment.
+    posteriors = NULL,
     #' @field experimental_parameters is a list containing details about each experimental parameter. Experimental parameters can be either policy levers or uncertainties. Defining this distinction is up to the user.
     experimental_parameters = list(),
 
@@ -85,3 +92,14 @@ crcexperiment <- R6::R6Class(
   active = list()
   # Initialize function is used to initialize the object:
 )
+
+
+#' Checks if object is a `crcexperiment`.
+#'
+#' @param x the object
+#'
+#' @return TRUE if object is a `crcexperiment`
+#' @export
+is.crcexperiment = function(x){
+  "crcexperiment" %in% class(x)
+}
