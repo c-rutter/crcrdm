@@ -122,11 +122,11 @@ calculate_weighted_averages = function(df, posterior_weights) {
   # Calculate the weighted average for every numeric variable:
   df %>%
     # Multiply value by the normalized weights:
-    mutate(across(where(is.numeric) & !c(posterior.df.id, posterior.df.name), ~ .x * df$normalized_weights)) %>%
-    select(-normalized_weights) %>%
+    mutate(across(tidyselect:::where(is.numeric) & !c(.data$posterior.df.id, .data$posterior.df.name), ~ .x * df$normalized_weights)) %>%
+    select(-.data$normalized_weights) %>%
     # Add them up:
-    group_by(posterior.df.id, posterior.df.name) %>%
-    summarise(across(where(is.numeric),sum), .groups = "drop") %>%
+    group_by(.data$posterior.df.id, .data$posterior.df.name) %>%
+    summarise(across(tidyselect:::where(is.numeric),sum), .groups = "drop") %>%
     as.data.frame()
 }
 
