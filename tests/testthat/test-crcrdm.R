@@ -160,18 +160,24 @@ test_that("crcexperiment works", {
 
 })
 
+
+# An experiment can contain more than one model, each with their onw posteriors:
+experiment = crcexperiment$new(model)
+
+# Create an experimental design:
+experiment$
+  set_parameter(parameter_name = "Test1",experimental_design = "grid", values = c("Colonoscopy", "FIT"))$
+  set_parameter(parameter_name = "abc",experimental_design = "lhs",min = 1, max = 10)$
+  set_design(n_lhs = 10, convert_lhs_to_grid = T)
+
 test_that("crcexperiment works with convert to grid = T", {
-
-  # An experiment can contain more than one model, each with their onw posteriors:
-  experiment = crcexperiment$new(model)
-
-  # Create an experimental design:
-  experiment$
-    set_parameter(parameter_name = "Test1",experimental_design = "grid", values = c("Colonoscopy", "FIT"))$
-    set_parameter(parameter_name = "abc",experimental_design = "lhs",min = 1, max = 10)$
-    set_design(n_lhs = 10, convert_lhs_to_grid = T)
 
   expect_true(is.crcexperiment(experiment))
 
 })
+
+test_that("crcexperiment can convert experiment to json", {
+  expect_true(is.data.frame(experiment$to_json()))
+})
+
 

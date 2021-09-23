@@ -111,6 +111,8 @@ crcexperiment_set_design = function(self, n_lhs, convert_lhs_to_grid, lhs_to_gri
   experimental_design = expand.grid(all_models_posteriors$all.posteriors.id, lhs_experiments$lhs.id, grid_params$grid.id)
   names(experimental_design) = c("all.posteriors.id", "lhs.id", "grid.id")
 
+  experimental_design = experimental_design %>%
+    dplyr::left_join(all_models_posteriors, by = "all.posteriors.id")
 
   # Assert that the Names of Alternative tables don't collide.
   all_collumns = c(names(all_models_posteriors), names(lhs_experiments), names(grid_params))
@@ -121,10 +123,10 @@ crcexperiment_set_design = function(self, n_lhs, convert_lhs_to_grid, lhs_to_gri
   }, msg = paste0("The Names of these Parameters are duplicated: ", duplicated_names))
 
 
-# Setting all posteriors object:
-self$posteriors = all_models_posteriors
-self$grid = grid_params
-self$lhs = lhs_experiments
+  # Setting all posteriors object:
+  self$posteriors = all_models_posteriors
+  self$grid = grid_params
+  self$lhs = lhs_experiments
 
 # Defining the full experimental design table (it doesn't include parameters in the posteriors because those can be different by model)
   self$experimental_design = experimental_design %>%
