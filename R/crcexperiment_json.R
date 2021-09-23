@@ -20,24 +20,34 @@
 # Manipulating model inputs as JSON objects ------------------------------------
 
 # Converts a CRCmodel to a JSON string
-crcexperiment_to_json <- function(self, private){
+crcexperiment_to_json <- function(self){
+  # Create a data.frame of jsob objects.
+  data.frame(json_inputs = apply(self$experimental_design, 1, experiment_to_json, self = self)) %>%
+    mutate(json_inputs = json_inputs)
+}
 
-  browser()
+# Auxiliary functions to transform an experimental design table to a json object.
 
-  # Create a list with all objects to be converted:
-  x = list()
-  for (obj in private$json_objects) {x[[obj]] <- self[[obj]]}
+# Converts a single experiment in the experimental design to a json object:
 
-  # Convert data.frames to list:
-  for(obj in private$df_objects){x[[obj]] = as.list(x[[obj]])}
+experiment_to_json = function(experiment_row, self) {
 
-  # capturing the model class as a character vector string:
-  x$class = class(self)
-  x$model_name = self$name
+  model_id = as.integer(experiment_row["model.id"])
+  param_id = as.integer(experiment_row["param.id"])
 
-  json_model = rjson::toJSON(x, indent = 0)
+  # This is the structure of the object created within each JSON row.
+  # More informatino could be added here, if necessary.
+  experiment_data = list(
+    experiment_row = as.list(experiment_row),
+    model_inputs = list(
+      model_name = self$models[[model_id]]$name,
+      # Selecting model inputs from current model
+      inputs = self$models[[model_id]]$inputs,
+      # Selecting parameter set for this particular run:
+      params = self$models[[model_id]]$posterior_params[self$models[[model_id]]$posterior_params$param.id==param_id,]
+    )
+  )
 
-  return(json_model)
-
+  rjson::toJSON(experiment_data)
 }
 

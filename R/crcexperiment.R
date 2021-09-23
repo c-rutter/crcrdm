@@ -69,13 +69,23 @@ crcexperiment <- R6::R6Class(
     #' Set Experimental Design
     #'
     #' @details
-    #' Creates the future_experimental_design data.frame based on the paramers defined by the set_parameter functions. The experimental design created by this function is useful to run a typical RDM analysis where each policy is evaluated across a LHS of deep uncertainties. To achieve that, define each policy lever as a grid parameter, and each uncertainty as an "lhs" uncertainty.
+    #' Creates the experimental_design data.frame based on the paramers defined by the set_parameter functions. The experimental design created by this function is useful to run a typical RDM analysis where each policy is evaluated across a LHS of deep uncertainties. To achieve that, define each policy lever as a grid parameter, and each uncertainty as an "lhs" uncertainty.
     #'
     #' @param n_lhs The number of points in the Latin Hypercube Sample to be created.
     #' @param convert_lhs_to_grid Default is FALSE. If TRUE, this function convert the LHS parameters to a grid design. Often is used when testing the "corners" of the experimental design before performing a full LHS run.
     #' @param lhs_to_grid_midpoints Only relevant when convert_to_lhs = T. Default value is 0. This should be an integer determining how many points within the grid hypercube should be created for the parameters being converted from LHS to a GRID design. For example, if convert_lhs_to_grid = T and lhs_to_grid_midpoints = 0, this function will create a full factorial design of the LHS parameters with 2^n points. If one wants to use one midpoint, then the design will have 3^n points, and so on. This parameter does not affect parameters orignally defined as part of a grid design because their values have already been set.
     set_design = function(n_lhs, convert_lhs_to_grid = F, lhs_to_grid_midpoints = 0){
       crcexperiment_set_design(self = self, n_lhs = n_lhs, convert_lhs_to_grid = convert_lhs_to_grid, lhs_to_grid_midpoints = lhs_to_grid_midpoints)
+    },
+
+    #' @description
+    #' Convert Experimental Design to a JSON format
+    #'
+    #' @details
+    #' Creates a data.frame in which each row represents a single experiment. The json object included in each row contains all information that the models need to re-create themselves in the server-side in a HPC workflow.
+    #'
+    to_json = function(){
+      crcexperiment_to_json(self = self)
     }
 
 
