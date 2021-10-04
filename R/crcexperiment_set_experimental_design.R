@@ -134,6 +134,9 @@ crcexperiment_set_design = function(self, n_lhs, convert_lhs_to_grid, lhs_to_gri
     left_join(lhs_experiments, by = "lhs.id") %>%
     mutate(experiment.id = row_number())
 
+
+  self$json_design = self$to_json()
+
   invisible(self)
 
 }

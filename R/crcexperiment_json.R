@@ -36,7 +36,7 @@ experiment_to_json = function(experiment_row, self) {
   param_id = as.integer(experiment_row["param.id"])
 
   # This is the structure of the object created within each JSON row.
-  # More informatino could be added here, if necessary.
+  # More information could be added here, if necessary.
   experiment_data = list(
     experiment_row = as.list(experiment_row),
     model_inputs = list(
