@@ -31,6 +31,9 @@ crcexperiment <- R6::R6Class(
     #' @field experimental_design is a table containing one row per experiment to be ran.
     experimental_design = NULL,
 
+    #' @field json_design is a data.frame containing data from the experimental design in json format.
+    json_design = NULL,
+
     #' @field grid is a table containing one row per point in the grid experimental design.
     grid = NULL,
     #' @field lhs is a table containing one row per point in the lhs experimental design.

@@ -8,7 +8,6 @@
 # See LICENSE.txt and README.txt for information on usage and licensing
 #------------------------------------------------------------------------------#
 
-
 #------------------------------------------------------------------------------#
 # Set Experimental Parameter
 # Purpose: Defines an Experimental Parameter to be used in an

@@ -8,7 +8,6 @@
 # See LICENSE.txt and README.txt for information on usage and licensing
 #------------------------------------------------------------------------------#
 
-
 #------------------------------------------------------------------------------#
 # Evaluate CRC Experiments
 # Purpose: The crcexperiment class represents an experiment of one or
