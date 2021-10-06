@@ -168,7 +168,7 @@ crcmodel <- R6::R6Class(
   ),
   # Use active binding functions to get and set the private data
   active = list()
-  # Initialize function is used to initialize the object:a
+  # Initialize function is used to initialize the object:
 )
 
 
