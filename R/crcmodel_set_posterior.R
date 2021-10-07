@@ -16,7 +16,7 @@
 #------------------------------------------------------------------------------#
 
 # See documentation in the crcmodel class.
-crcmodel_set_posterior = function(self, posteriors_list, posterior_weights, use_average, n_posterior, seed = 12345678) {
+crcmodel_set_posterior = function(self, posteriors_list, posterior_weights, cols_to_ignore, use_average, n_posterior, seed) {
 
   # Setting a seed for reproducibility because this function will create a sample:
   if(!missing(seed)){
@@ -35,7 +35,7 @@ crcmodel_set_posterior = function(self, posteriors_list, posterior_weights, use_
   names_list = lapply(posteriors_list, names)
 
   # all names of the data.frames are exactly the same:
-  #assertthat::assert_that(all(sapply(names_list, identical, names_list[[1]])), msg = "All dataframes in the posterior_lists should have the same parameters. each parameter data.frame must have the same names.")
+  assertthat::assert_that(all(sapply(names_list, identical, names_list[[1]])), msg = "All dataframes in the posterior_lists should have the same parameters. each parameter data.frame must have the same names.")
   assertthat::assert_that(all(sapply(names_list, base::setequal, names_list[[1]])), msg = "All dataframes in the posterior_lists should have the same parameters. each parameter data.frame must have the same names.")
 
   # posterior_weights must be provided:
@@ -50,10 +50,14 @@ crcmodel_set_posterior = function(self, posteriors_list, posterior_weights, use_
   # it also needs to exist in the posterior file - we already checked all of them are the same, so we can just check the first one.
   assertthat::assert_that(posterior_weights %in% names_list[[1]])
 
-  # Defining the names of the posteriors:
+  # Defining the names of the posteriors and unselecting undesired columns:
   for(posterior_id in 1:length(names(posteriors_list)) ) {
     posteriors_list[[posterior_id]]$posterior.df.id = posterior_id
     posteriors_list[[posterior_id]]$posterior.df.name = names(posteriors_list)[posterior_id]
+    # Ignoring unwanted variables:
+    posteriors_list[[posterior_id]] = posteriors_list[[posterior_id]] %>%
+      dplyr::select(-dplyr::any_of(cols_to_ignore))
+
   }
 
   # If we want to use the average, we can do so:
@@ -80,7 +84,8 @@ crcmodel_set_posterior = function(self, posteriors_list, posterior_weights, use_
   }
 
   # The main result of this function is the posterior_params data.frame, which we assign to self:
-  self$posterior_params = posterior_params
+  self$posterior_params = posterior_params %>%
+    dplyr::select(-any_of(posterior_weights))
 
   # Return the model object:
   invisible(self)

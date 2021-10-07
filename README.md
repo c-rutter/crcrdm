@@ -25,8 +25,7 @@ multiple models. The package is also designed to support
 High-Performance Computing workflows using EMEWS using the EMEWS EQ/SQL
 backend. This feature will allow efficient use of High-Performance
 computing resources for large-scale, long-running experiments that
-involve simulating a population of 10 million of individuals across
-thousands to millions of simulation scenarios.
+involve simulating a large population over thousands of simulation runs.
 
 ## Installation
 
