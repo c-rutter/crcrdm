@@ -13,6 +13,8 @@ This class implements a `crcexperiment`.
 
 \item{\code{experimental_design}}{is a table containing one row per experiment to be ran.}
 
+\item{\code{json_design}}{is a data.frame containing data from the experimental design in json format.}
+
 \item{\code{grid}}{is a table containing one row per point in the grid experimental design.}
 
 \item{\code{lhs}}{is a table containing one row per point in the lhs experimental design.}
@@ -29,6 +31,7 @@ This class implements a `crcexperiment`.
 \item \href{#method-new}{\code{crcexperiment$new()}}
 \item \href{#method-set_parameter}{\code{crcexperiment$set_parameter()}}
 \item \href{#method-set_design}{\code{crcexperiment$set_design()}}
+\item \href{#method-to_json}{\code{crcexperiment$to_json()}}
 \item \href{#method-clone}{\code{crcexperiment$clone()}}
 }
 }
@@ -114,7 +117,21 @@ Set Experimental Design
 \if{html}{\out{</div>}}
 }
 \subsection{Details}{
-Creates the future_experimental_design data.frame based on the paramers defined by the set_parameter functions. The experimental design created by this function is useful to run a typical RDM analysis where each policy is evaluated across a LHS of deep uncertainties. To achieve that, define each policy lever as a grid parameter, and each uncertainty as an "lhs" uncertainty.
+Creates the experimental_design data.frame based on the paramers defined by the set_parameter functions. The experimental design created by this function is useful to run a typical RDM analysis where each policy is evaluated across a LHS of deep uncertainties. To achieve that, define each policy lever as a grid parameter, and each uncertainty as an "lhs" uncertainty.
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-to_json"></a>}}
+\if{latex}{\out{\hypertarget{method-to_json}{}}}
+\subsection{Method \code{to_json()}}{
+Convert Experimental Design to a JSON format
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{crcexperiment$to_json()}\if{html}{\out{</div>}}
+}
+
+\subsection{Details}{
+Creates a data.frame in which each row represents a single experiment. The json object included in each row contains all information that the models need to re-create themselves in the server-side in a HPC workflow.
 }
 
 }

@@ -39,15 +39,12 @@ experiment_to_json = function(experiment_row, self) {
   # More information could be added here, if necessary.
   experiment_data = list(
     experiment_row = as.list(experiment_row),
-    model_inputs = list(
-      model_name = self$models[[model_id]]$name,
-      # Selecting model inputs from current model
-      inputs = self$models[[model_id]]$inputs,
-      # Selecting parameter set for this particular run:
-      params = self$models[[model_id]]$posterior_params[self$models[[model_id]]$posterior_params$param.id==param_id,]
-    )
+    inputs = self$models[[model_id]]$to_json(),
+    params = self$models[[model_id]]$posterior_params %>%
+      dplyr::filter(param.id == param_id) %>%
+      dplyr::select(-dplyr::any_of(c("posterior.df.id", "posterior.df.name", "posterior.orig.row.id", "posterior.df.row.id", "param.id", "model.id")))
   )
 
-  rjson::toJSON(experiment_data)
+  jsonlite::serializeJSON(experiment_data, digits = 20)
 }
 

@@ -32,7 +32,7 @@ crcmodel_to_json <- function(self, private){
   x$class = class(self)
   x$model_name = self$name
 
-  json_model = rjson::toJSON(x, indent = 0)
+  json_model = jsonlite::serializeJSON(x, digits = 20)
 
   return(json_model)
 
@@ -41,7 +41,7 @@ crcmodel_to_json <- function(self, private){
 # Converts a JSON Object to a crcspin model object
 crcmodel_set_inputs_from_json = function(self, json){
 
-  json_list = rjson::fromJSON(json_str = json, simplify = T)
+  json_list = jsonlite::unserializeJSON(json)
 
   #original model class should match the the class defined in the json objects:
   assertthat::assert_that(identical(json_list$class, class(self)),msg = "The model class used to create the json file does not correspond to this model's class. Make sure to use exactly the same function to create the model")
