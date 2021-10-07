@@ -138,6 +138,7 @@ Set Posterior distribution of model parameters
 \if{html}{\out{<div class="r">}}\preformatted{crcmodel$set_posterior(
   posteriors_list,
   posterior_weights,
+  cols_to_ignore = NULL,
   n_posterior,
   use_average = F,
   seed = 12345678
@@ -150,6 +151,8 @@ Set Posterior distribution of model parameters
 \item{\code{posteriors_list}}{named list of one more more data.frames containing the posterior of model parameters.}
 
 \item{\code{posterior_weights}}{character indicating the name of the column that contain weights to be used when sampling from the posterior}
+
+\item{\code{cols_to_ignore}}{character vector of columns name to ignore. This is useful when the posterior files contain columns that are not parameters and are not inputs to the model.}
 
 \item{\code{n_posterior}}{the size of the sample to take from each posterior file.}
 

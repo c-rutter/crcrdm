@@ -23,7 +23,7 @@ write
 
 
 
-json_to_list = rjson::fromJSON(list_to_json)
+json_to_list = rjson::unserializeJSON(list_to_json)
 
 # The from and to json functions work well with lists and vectors, but not so well with dataframes.
 # So make sure each object in the list is a vector, scalar or list. Do not include data.frames or tibbles.

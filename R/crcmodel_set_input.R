@@ -32,10 +32,11 @@ crcmodel_set_input = function(self, name, value, type) {
     message(paste0("Input ", name, " already exists. Replacing it with new value."))
 
     # for safety reasons, let's ensure we are replacing objects with the same class and type:
-    assertthat::assert_that(assertthat::are_equal(class(self$inputs[[name]]), class(value)), msg= paste0("You are not allowed to replace the input ", name, " which was ", class(self$inputs[[name]]), " with an object of class ", class(value)))
+    # This is too annoying because numerics and integers are not from the same class.
+    #assertthat::assert_that(assertthat::are_equal(class(self$inputs[[name]]), class(value)), msg= paste0("You are not allowed to replace the input ", name, " which was ", class(self$inputs[[name]]), " with an object of class ", class(value)))
 
     # Also, checking type:
-    assertthat::assert_that(assertthat::are_equal(typeof(self$inputs[[name]]), typeof(value)), msg= paste0("You are not allowed to replace the input ", name, " which was ", typeof(self$inputs[[name]]), " with an object of type ", typeof(value)))
+    #assertthat::assert_that(assertthat::are_equal(typeof(self$inputs[[name]]), typeof(value)), msg= paste0("You are not allowed to replace the input ", name, " which was ", typeof(self$inputs[[name]]), " with an object of type ", typeof(value)))
 
     # Let's also check that the length of the objects are the same:
 

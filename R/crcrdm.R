@@ -15,7 +15,6 @@
 #'
 #' @docType package
 #' @name crcrdm
-#' @importFrom rjson toJSON
 NULL
 
 

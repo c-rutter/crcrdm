@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-blue.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
 
-This package implements the `crcmodel` and the `crcexperiment` R6 classes and can be used to perform Robust Decision Making Analyses of multiple cancer screening models using High-Performance Computing resources. The package supports common tasks, such as defining and conducting Probabilistic Sensitivity Analyses (PSAs) with one or multiple models. The package is also designed to support High-Performance Computing workflows using EMEWS using the EMEWS EQ/SQL backend. This feature will allow efficient use of High-Performance computing resources for large-scale, long-running experiments that involve simulating a population of 10 million of individuals across thousands to millions of simulation scenarios.
+This package implements the `crcmodel` and the `crcexperiment` R6 classes and can be used to perform Robust Decision Making Analyses of multiple cancer screening models using High-Performance Computing resources. The package supports common tasks, such as defining and conducting Probabilistic Sensitivity Analyses (PSAs) with one or multiple models. The package is also designed to support High-Performance Computing workflows using EMEWS using the EMEWS EQ/SQL backend. This feature will allow efficient use of High-Performance computing resources for large-scale, long-running experiments that involve simulating a large population over thousands of simulation runs.
 
 ## Installation
 
