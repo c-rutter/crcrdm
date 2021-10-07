@@ -212,6 +212,7 @@ All model inputs shoulhd be added or modified through this function. Inputs can 
 <p><div class="r"></p><pre><span class='va'>crcmodel</span><span class='op'>$</span><span class='fu'>set_posterior</span><span class='op'>(</span>
   <span class='va'>posteriors_list</span>,
   <span class='va'>posterior_weights</span>,
+  cols_to_ignore <span class='op'>=</span> <span class='cn'>NULL</span>,
   <span class='va'>n_posterior</span>,
   use_average <span class='op'>=</span> <span class='cn'>F</span>,
   seed <span class='op'>=</span> <span class='fl'>12345678</span>
@@ -222,6 +223,8 @@ All model inputs shoulhd be added or modified through this function. Inputs can 
 <dt><code>posteriors_list</code></dt><dd><p>named list of one more more data.frames containing the posterior of model parameters.</p></dd>
 
 <dt><code>posterior_weights</code></dt><dd><p>character indicating the name of the column that contain weights to be used when sampling from the posterior</p></dd>
+
+<dt><code>cols_to_ignore</code></dt><dd><p>character vector of columns name to ignore. This is useful when the posterior files contain columns that are not parameters and are not inputs to the model.</p></dd>
 
 <dt><code>n_posterior</code></dt><dd><p>the size of the sample to take from each posterior file.</p></dd>
 

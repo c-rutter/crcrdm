@@ -121,6 +121,8 @@
 
 <dt><code>experimental_design</code></dt><dd><p>is a table containing one row per experiment to be ran.</p></dd>
 
+<dt><code>json_design</code></dt><dd><p>is a data.frame containing data from the experimental design in json format.</p></dd>
+
 <dt><code>grid</code></dt><dd><p>is a table containing one row per point in the grid experimental design.</p></dd>
 
 <dt><code>lhs</code></dt><dd><p>is a table containing one row per point in the lhs experimental design.</p></dd>
@@ -139,6 +141,7 @@
 <li><p><a href='#method-new'><code>crcexperiment$new()</code></a></p></li>
 <li><p><a href='#method-set_parameter'><code>crcexperiment$set_parameter()</code></a></p></li>
 <li><p><a href='#method-set_design'><code>crcexperiment$set_design()</code></a></p></li>
+<li><p><a href='#method-to_json'><code>crcexperiment$to_json()</code></a></p></li>
 <li><p><a href='#method-clone'><code>crcexperiment$clone()</code></a></p></li>
 </ul>
 <p><hr>
@@ -201,7 +204,15 @@ Every parameter defined in this function can be accessed within the model by usi
 
 </dl><p></div></p>
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Details</h4>
-<p>Creates the future_experimental_design data.frame based on the paramers defined by the set_parameter functions. The experimental design created by this function is useful to run a typical RDM analysis where each policy is evaluated across a LHS of deep uncertainties. To achieve that, define each policy lever as a grid parameter, and each uncertainty as an "lhs" uncertainty.</p>
+<p>Creates the experimental_design data.frame based on the paramers defined by the set_parameter functions. The experimental design created by this function is useful to run a typical RDM analysis where each policy is evaluated across a LHS of deep uncertainties. To achieve that, define each policy lever as a grid parameter, and each uncertainty as an "lhs" uncertainty.</p>
+
+<p><hr>
+<a id="method-to_json"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>to_json()</code></h3>
+<p>Convert Experimental Design to a JSON format</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>crcexperiment</span><span class='op'>$</span><span class='fu'>to_json</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Details</h4>
+<p>Creates a data.frame in which each row represents a single experiment. The json object included in each row contains all information that the models need to re-create themselves in the server-side in a HPC workflow.</p>
 
 <p><hr>
 <a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
