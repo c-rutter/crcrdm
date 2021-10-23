@@ -20,9 +20,9 @@
 # Manipulating model inputs as JSON objects ------------------------------------
 
 # Converts a CRCmodel to a JSON string
-crcexperiment_to_json <- function(self){
-  # Create a data.frame of jsob objects.
-  data.frame(json_inputs = apply(self$experimental_design, 1, experiment_to_json, self = self)) %>%
+crcexperiment_to_json <- function(self, experimental_design){
+  # Create a data.frame of json objects.
+  data.frame(json_inputs = apply(experimental_design, 1, experiment_to_json, self = self)) %>%
     mutate(json_inputs = json_inputs)
 }
 
