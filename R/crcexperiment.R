@@ -28,18 +28,30 @@ crcexperiment <- R6::R6Class(
 
     #' @field models is a list containing crcmodel objects.
     models = NULL,
-    #' @field experimental_design is a table containing one row per experiment to be ran.
-    experimental_design = NULL,
+    #' @field nh_design is a table containing one row per experiment to be ran.
+    nh_design = NULL,
 
-    #' @field json_design is a data.frame containing data from the experimental design in json format.
-    json_design = NULL,
+    #' @field screening_design is a table containing one row per experiment to be ran.
+    screening_design = NULL,
+
+    #' @field nh_json_design is a data.frame containing data from the experimental design in json format.
+    nh_json_design = NULL,
+
+    #' @field screening_json_design is a data.frame containing data from the experimental design in json format.
+    screening_json_design = NULL,
 
     #' @field grid is a table containing one row per point in the grid experimental design.
     grid = NULL,
+
     #' @field lhs is a table containing one row per point in the lhs experimental design.
     lhs = NULL,
+
+    #' @field blocks is the number of population blocks used in the experimental design. This number of population blocks allows us to divide the experimental design into experimental blocks.
+    blocks = NULL,
+
     #' @field posteriors is a table containing one row per parameter set defined in the posterior of each model included in the experiment.
     posteriors = NULL,
+
     #' @field experimental_parameters is a list containing details about each experimental parameter. Experimental parameters can be either policy levers or uncertainties. Defining this distinction is up to the user.
     experimental_parameters = list(),
 
@@ -75,10 +87,11 @@ crcexperiment <- R6::R6Class(
     #' Creates the experimental_design data.frame based on the paramers defined by the set_parameter functions. The experimental design created by this function is useful to run a typical RDM analysis where each policy is evaluated across a LHS of deep uncertainties. To achieve that, define each policy lever as a grid parameter, and each uncertainty as an "lhs" uncertainty.
     #'
     #' @param n_lhs The number of points in the Latin Hypercube Sample to be created.
+    #' @param blocks is the number of population blocks to use to parallelize the runs across nodes.
     #' @param convert_lhs_to_grid Default is FALSE. If TRUE, this function convert the LHS parameters to a grid design. Often is used when testing the "corners" of the experimental design before performing a full LHS run.
     #' @param lhs_to_grid_midpoints Only relevant when convert_to_lhs = T. Default value is 0. This should be an integer determining how many points within the grid hypercube should be created for the parameters being converted from LHS to a GRID design. For example, if convert_lhs_to_grid = T and lhs_to_grid_midpoints = 0, this function will create a full factorial design of the LHS parameters with 2^n points. If one wants to use one midpoint, then the design will have 3^n points, and so on. This parameter does not affect parameters orignally defined as part of a grid design because their values have already been set.
-    set_design = function(n_lhs, convert_lhs_to_grid = F, lhs_to_grid_midpoints = 0){
-      crcexperiment_set_design(self = self, n_lhs = n_lhs, convert_lhs_to_grid = convert_lhs_to_grid, lhs_to_grid_midpoints = lhs_to_grid_midpoints)
+    set_design = function(n_lhs, blocks = 1, convert_lhs_to_grid = F, lhs_to_grid_midpoints = 0){
+      crcexperiment_set_design(self = self, n_lhs = n_lhs, blocks = blocks, convert_lhs_to_grid = convert_lhs_to_grid, lhs_to_grid_midpoints = lhs_to_grid_midpoints)
     },
 
     #' @description
@@ -87,8 +100,10 @@ crcexperiment <- R6::R6Class(
     #' @details
     #' Creates a data.frame in which each row represents a single experiment. The json object included in each row contains all information that the models need to re-create themselves in the server-side in a HPC workflow.
     #'
-    to_json = function(){
-      crcexperiment_to_json(self = self)
+    #' @param experimental_design is a data.frame containing an experimental design to be parsed to json.
+    #'
+    to_json = function(experimental_design){
+      crcexperiment_to_json(self = self, experimental_design = experimental_design)
     }
 
 

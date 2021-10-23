@@ -24,14 +24,13 @@
 #' @importFrom lhs randomLHS
 #' @import dplyr
 #' @importFrom stats qunif
-crcexperiment_set_design = function(self, n_lhs, convert_lhs_to_grid, lhs_to_grid_midpoints) {
+#' @importFrom data.table as.data.table data.table
+crcexperiment_set_design = function(self, n_lhs, blocks, convert_lhs_to_grid, lhs_to_grid_midpoints) {
 
   # convert LHS parameters to grid if requested:
   if(convert_lhs_to_grid) {
-
     # Convert all lhs parameters to grid
     self$experimental_parameters = lapply(X = self$experimental_parameters, FUN = convert_lhs_param_to_grid, lhs_to_grid_midpoints = lhs_to_grid_midpoints)
-
   }
 
 
@@ -41,6 +40,7 @@ crcexperiment_set_design = function(self, n_lhs, convert_lhs_to_grid, lhs_to_gri
   grid_lhs_params = Filter(f = function(a) a$experimental_design == "grid_lhs", self$experimental_parameters) %>%
     sapply(., function(a) a[3]) %>%
     expand.grid(.)
+
 
   # Only sample lhs if there is one LHS variable:
   if(nrow(lhs_params)>0) {
@@ -62,6 +62,7 @@ crcexperiment_set_design = function(self, n_lhs, convert_lhs_to_grid, lhs_to_gri
       mutate(lhs.id = row_number())
 
   } else if(nrow(grid_lhs_params)>0) {
+
     # create grid with "Lhs parameters", but using a grid desing. Useful to distinguish uncertainties from policies:
     lhs_experiments = grid_lhs_params %>%
       mutate(lhs.id = row_number())
@@ -89,7 +90,6 @@ crcexperiment_set_design = function(self, n_lhs, convert_lhs_to_grid, lhs_to_gri
   # Getting Rid of the .values appendix
   names(grid_params) = sub(pattern = '.values',replacement =  '',x = names(grid_params))
 
-
   # Obtaining a table for models and their parameters in the posterior:
   models_df = data.frame(model.name = sapply(self$models, '[[',"name")) %>%
     dplyr::mutate(model.id = dplyr::row_number())
@@ -100,42 +100,61 @@ crcexperiment_set_design = function(self, n_lhs, convert_lhs_to_grid, lhs_to_gri
     self$models[[model_id]]$posterior_params$model.id <- model_id
   }
 
-
   # This is a very compact way of getting exactly two columns that are within the self$models objects.
   # param.id is the parameter id within each model
   # all.posteriors.id is an id referring to the experiment design. nrow(all_models_posteriors) = max(all.posteriors.id)
   all_models_posteriors = do.call(rbind, lapply(lapply(self$models, '[[', "posterior_params"), get_ids_from_posterior)) %>%
     dplyr::mutate(all.posteriors.id = dplyr::row_number())
 
-  # experimental design is the combination of all parameters:
-  experimental_design = expand.grid(all_models_posteriors$all.posteriors.id, lhs_experiments$lhs.id, grid_params$grid.id)
-  names(experimental_design) = c("all.posteriors.id", "lhs.id", "grid.id")
+  # Block ids - This is a vector of population block ids that can be used to divide the population runs:
+  block.ids = 1:blocks
 
-  experimental_design = experimental_design %>%
-    dplyr::left_join(all_models_posteriors, by = "all.posteriors.id")
+  # Natural History Experimental Design:
+  # The natural history experimental design defines the design to be run for the natural history model.
+
+  # Currently, the natural history design is just the table of all model posteriors
+  # In the future, we might allow the natural history design to be a combination of other parameters, including other uncertainties.
+  # Currently, all uncertainties that concern the natural history are incorporated in the posterior.
+  nh_design = all_models_posteriors %>%
+    dplyr::mutate(nh_design.id = row_number())
+
+  # Screening Experimental Design:
+  # experimental design is the combination of all parameters:
+  screening_design = expand.grid(grid_params$grid.id, lhs_experiments$lhs.id, nh_design$nh_design.id, block.ids)
+  names(screening_design) = c("grid.id", "lhs.id", "nh_design.id", "block.id")
+
+  screening_design = screening_design %>%
+    dplyr::left_join(nh_design, by = "nh_design.id")
 
   # Assert that the Names of Alternative tables don't collide.
-  all_collumns = c(names(all_models_posteriors), names(lhs_experiments), names(grid_params))
+  all_collumns = c(names(nh_design), names(lhs_experiments), names(grid_params), "block.id")
 
   duplicated_names = all_collumns[duplicated(all_collumns)]
   assertthat::assert_that({
     length(duplicated_names)==0
   }, msg = paste0("The Names of these Parameters are duplicated: ", duplicated_names))
 
-
   # Setting all posteriors object:
   self$posteriors = all_models_posteriors
   self$grid = grid_params
   self$lhs = lhs_experiments
+  self$blocks = blocks
 
-# Defining the full experimental design table (it doesn't include parameters in the posteriors because those can be different by model)
-  self$experimental_design = experimental_design %>%
+  # Defining the full experimental design table (it doesn't include parameters in the posteriors because those can be different by model)
+  screening_design = screening_design %>%
     left_join(grid_params, by = "grid.id") %>%
     left_join(lhs_experiments, by = "lhs.id") %>%
-    mutate(experiment.id = row_number())
+    mutate(screning.exp.id = row_number())
 
+  # Save Experimental Design as a data.tables and json objects:
 
-  self$json_design = self$to_json()
+  # For the Natural history design:
+  self$nh_design = data.table::as.data.table(nh_design)
+  self$nh_json_design = self$to_json(nh_design)
+
+  # For the Screening design
+  self$screening_design = data.table::as.data.table(screening_design)
+  self$screening_json_design = self$to_json(screening_design)
 
   invisible(self)
 

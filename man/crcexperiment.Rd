@@ -11,13 +11,19 @@ This class implements a `crcexperiment`.
 \describe{
 \item{\code{models}}{is a list containing crcmodel objects.}
 
-\item{\code{experimental_design}}{is a table containing one row per experiment to be ran.}
+\item{\code{nh_design}}{is a table containing one row per experiment to be ran.}
 
-\item{\code{json_design}}{is a data.frame containing data from the experimental design in json format.}
+\item{\code{screening_design}}{is a table containing one row per experiment to be ran.}
+
+\item{\code{nh_json_design}}{is a data.frame containing data from the experimental design in json format.}
+
+\item{\code{screening_json_design}}{is a data.frame containing data from the experimental design in json format.}
 
 \item{\code{grid}}{is a table containing one row per point in the grid experimental design.}
 
 \item{\code{lhs}}{is a table containing one row per point in the lhs experimental design.}
+
+\item{\code{blocks}}{is the number of population blocks used in the experimental design. This number of population blocks allows us to divide the experimental design into experimental blocks.}
 
 \item{\code{posteriors}}{is a table containing one row per parameter set defined in the posterior of each model included in the experiment.}
 
@@ -100,6 +106,7 @@ Set Experimental Design
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{crcexperiment$set_design(
   n_lhs,
+  blocks = 1,
   convert_lhs_to_grid = F,
   lhs_to_grid_midpoints = 0
 )}\if{html}{\out{</div>}}
@@ -109,6 +116,8 @@ Set Experimental Design
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{n_lhs}}{The number of points in the Latin Hypercube Sample to be created.}
+
+\item{\code{blocks}}{is the number of population blocks to use to parallelize the runs across nodes.}
 
 \item{\code{convert_lhs_to_grid}}{Default is FALSE. If TRUE, this function convert the LHS parameters to a grid design. Often is used when testing the "corners" of the experimental design before performing a full LHS run.}
 
@@ -127,9 +136,16 @@ Creates the experimental_design data.frame based on the paramers defined by the 
 \subsection{Method \code{to_json()}}{
 Convert Experimental Design to a JSON format
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{crcexperiment$to_json()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{crcexperiment$to_json(experimental_design)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{experimental_design}}{is a data.frame containing an experimental design to be parsed to json.}
+}
+\if{html}{\out{</div>}}
+}
 \subsection{Details}{
 Creates a data.frame in which each row represents a single experiment. The json object included in each row contains all information that the models need to re-create themselves in the server-side in a HPC workflow.
 }

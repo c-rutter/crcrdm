@@ -18,7 +18,11 @@ model$set_posterior(posteriors_list = list(v2_4 = read.csv("./dev/good.modelparm
 # An experiment can contain more than one model, each with their onw posteriors:
 experiment = crcexperiment$new(model)
 # Create an experimental design:
-experiment$set_design()
+experiment$set_design(blocks = 10)
+
+View(experiment$nh_json_design)
+
+View(experiment$screening_json_design)
 
 View(experiment$json_design)
 

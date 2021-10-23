@@ -176,8 +176,5 @@ test_that("crcexperiment works with convert to grid = T", {
 
 })
 
-test_that("crcexperiment can convert experiment to json", {
-  expect_true(is.data.frame(experiment$to_json()))
-})
 
 
