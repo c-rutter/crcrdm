@@ -98,10 +98,10 @@ posterior.b = data.frame(
 
 # Here we set the posterior of the model using three posterior files:
 model$set_posterior(posteriors_list = list(pa = posterior.a, pb = posterior.b, pc = posterior.b),
-                    posterior_weights = "weights", use_average = F, n_posterior = 1000)
+                    posterior_weights = "weights", use_average = F, n_posterior = 10)
 
 test_that("set_posterior works", {
-  expect_true(nrow(model$posterior_params) == 3000)
+  expect_true(nrow(model$posterior_params) == 30)
 })
 
 
@@ -168,7 +168,7 @@ experiment = crcexperiment$new(model)
 experiment$
   set_parameter(parameter_name = "Test1",experimental_design = "grid", values = c("Colonoscopy", "FIT"))$
   set_parameter(parameter_name = "abc",experimental_design = "lhs",min = 1, max = 10)$
-  set_design(n_lhs = 10, convert_lhs_to_grid = T)
+  set_design(n_lhs = 2, convert_lhs_to_grid = T)
 
 test_that("crcexperiment works with convert to grid = T", {
 
@@ -176,5 +176,40 @@ test_that("crcexperiment works with convert to grid = T", {
 
 })
 
+test_that("to_JSON returns a list with the experiment", {
 
+  json_exp = experiment$to_json()
 
+  expect_true(length(json_exp) == 2)
+
+})
+
+test_that("to_JSON can write to a file", {
+
+  experiment$to_json(json_folder = "json-test/")
+
+  expect_true(file.exists("./test/screening_design.txt"))
+  expect_true(file.exists("./test/nh_design.txt"))
+
+  file.remove("./json-test/screening_design.txt")
+  file.remove("./json-test/nh_design.txt")
+  file.remove("./json-test/")
+
+})
+
+test_that("crcexperiment works with pre-existing design", {
+
+  # An experiment can contain more than one model, each with their onw posteriors:
+  experiment = crcexperiment$new(model)
+
+  # External grid:
+  grid_design = expand.grid(c(1:10), c(10:13))
+
+  # Create an experimental design:
+  experiment$
+    set_parameter(parameter_name = "abc",experimental_design = "lhs",min = 1, max = 10)$
+    set_design(n_lhs = 2, grid_design_df = grid_design)
+
+  expect_true(is.crcexperiment(experiment))
+
+})
