@@ -19,23 +19,32 @@
 # Manipulating model inputs as JSON objects ------------------------------------
 
 # Converts a CRCmodel to a JSON string
-crcmodel_to_json <- function(self, private){
+crcmodel_to_json <- function(self, private, types){
 
   # Create a list with all objects to be converted:
   x = list()
   for (obj in private$json_objects) {x[[obj]] <- self[[obj]]}
 
+  # Filter inputs from the desired type:
+  if(!missing(types)){
+    x$inputs_table = x$inputs_table[self$inputs_table$type %in% types,]
+  }
+
   # Convert data.frames to list:
   for(obj in private$df_objects){x[[obj]] = as.list(x[[obj]])}
 
-  # capturing the model class as a character vector string:
+  # Filter Inputs list and table to only include desired input types:
+  if(!missing(types)){
+    x$inputs = x$inputs[x$inputs_table$name]
+  }
+
+  # Capturing the model class as a character vector string:
   x$class = class(self)
   x$model_name = self$name
 
   json_model = jsonlite::serializeJSON(x, digits = 20)
 
   return(json_model)
-
 }
 
 # Converts a JSON Object to a crcspin model object

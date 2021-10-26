@@ -20,9 +20,9 @@
 # Manipulating model inputs as JSON objects ------------------------------------
 
 # Converts a CRCmodel to a JSON string
-crcexperiment_to_json <- function(self, experimental_design){
+crcexperiment_to_json <- function(self, experimental_design, type){
   # Create a data.frame of json objects.
-  data.frame(json_inputs = apply(experimental_design, 1, experiment_to_json, self = self)) %>%
+  data.frame(json_inputs = apply(experimental_design, 1, experiment_to_json, self = self, type = type)) %>%
     mutate(json_inputs = json_inputs)
 }
 
@@ -30,21 +30,33 @@ crcexperiment_to_json <- function(self, experimental_design){
 
 # Converts a single experiment in the experimental design to a json object:
 
-experiment_to_json = function(experiment_row, self) {
+experiment_to_json = function(experiment_row, self, type) {
 
   model_id = as.integer(experiment_row["model.id"])
   param_id = as.integer(experiment_row["param.id"])
 
-  # This is the structure of the object created within each JSON row.
-  # More information could be added here, if necessary.
-  experiment_data = list(
-    experiment_row = as.list(experiment_row),
-    inputs = self$models[[model_id]]$to_json(),
-    params = self$models[[model_id]]$posterior_params %>%
-      dplyr::filter(param.id == param_id) %>%
-      dplyr::select(-dplyr::any_of(c("posterior.df.id", "posterior.df.name", "posterior.orig.row.id", "posterior.df.row.id", "param.id", "model.id")))
-  )
+  # The experiment type must bee natural history or screening:
+  stopifnot(type %in% c("nh", "screening"))
 
-  jsonlite::serializeJSON(experiment_data, digits = 20)
+  # For Natural History Experimental designs:
+  if(type == "nh"){
+    experiment_data = list(
+      experiment_row = as.list(experiment_row),
+      inputs = self$models[[model_id]]$to_json(input_types = "nh"),
+      params = self$models[[model_id]]$posterior_params %>%
+        dplyr::filter(param.id == param_id) %>%
+        dplyr::select(-dplyr::any_of(c("posterior.df.id", "posterior.df.name", "posterior.orig.row.id", "posterior.df.row.id", "param.id", "model.id")))
+    )
+  }
+
+  # For Screening Designs:
+  if(type == "screening"){
+    experiment_data = list(
+      experiment_row = as.list(experiment_row),
+      inputs = self$models[[model_id]]$to_json(input_types = "screening")
+    )
+  }
+
+  jsonlite::serializeJSON(experiment_data, digits = 10)
 }
 
