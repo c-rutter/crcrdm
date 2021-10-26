@@ -188,8 +188,8 @@ test_that("to_JSON can write to a file", {
 
   experiment$to_json(json_folder = "json-test/")
 
-  expect_true(file.exists("./test/screening_design.txt"))
-  expect_true(file.exists("./test/nh_design.txt"))
+  expect_true(file.exists("./json-test/screening_design.txt"))
+  expect_true(file.exists("./json-test/nh_design.txt"))
 
   file.remove("./json-test/screening_design.txt")
   file.remove("./json-test/nh_design.txt")
