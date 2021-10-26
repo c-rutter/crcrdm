@@ -119,13 +119,19 @@
     <p><div class="r6-fields"></p><dl>
 <dt><code>models</code></dt><dd><p>is a list containing crcmodel objects.</p></dd>
 
-<dt><code>experimental_design</code></dt><dd><p>is a table containing one row per experiment to be ran.</p></dd>
+<dt><code>nh_design</code></dt><dd><p>is a table containing one row per experiment to be ran.</p></dd>
 
-<dt><code>json_design</code></dt><dd><p>is a data.frame containing data from the experimental design in json format.</p></dd>
+<dt><code>screening_design</code></dt><dd><p>is a table containing one row per experiment to be ran.</p></dd>
+
+<dt><code>nh_json_design</code></dt><dd><p>is a data.frame containing data from the experimental design in json format.</p></dd>
+
+<dt><code>screening_json_design</code></dt><dd><p>is a data.frame containing data from the experimental design in json format.</p></dd>
 
 <dt><code>grid</code></dt><dd><p>is a table containing one row per point in the grid experimental design.</p></dd>
 
 <dt><code>lhs</code></dt><dd><p>is a table containing one row per point in the lhs experimental design.</p></dd>
+
+<dt><code>blocks</code></dt><dd><p>is the number of population blocks used in the experimental design. This number of population blocks allows us to divide the experimental design into experimental blocks.</p></dd>
 
 <dt><code>posteriors</code></dt><dd><p>is a table containing one row per parameter set defined in the posterior of each model included in the experiment.</p></dd>
 
@@ -190,6 +196,7 @@ Every parameter defined in this function can be accessed within the model by usi
 <p>Set Experimental Design</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>crcexperiment</span><span class='op'>$</span><span class='fu'>set_design</span><span class='op'>(</span>
   <span class='va'>n_lhs</span>,
+  blocks <span class='op'>=</span> <span class='fl'>1</span>,
   convert_lhs_to_grid <span class='op'>=</span> <span class='cn'>F</span>,
   lhs_to_grid_midpoints <span class='op'>=</span> <span class='fl'>0</span>
 <span class='op'>)</span></pre><p></div></p>
@@ -197,6 +204,8 @@ Every parameter defined in this function can be accessed within the model by usi
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
 <dt><code>n_lhs</code></dt><dd><p>The number of points in the Latin Hypercube Sample to be created.</p></dd>
+
+<dt><code>blocks</code></dt><dd><p>is the number of population blocks to use to parallelize the runs across nodes.</p></dd>
 
 <dt><code>convert_lhs_to_grid</code></dt><dd><p>Default is FALSE. If TRUE, this function convert the LHS parameters to a grid design. Often is used when testing the "corners" of the experimental design before performing a full LHS run.</p></dd>
 
@@ -209,8 +218,13 @@ Every parameter defined in this function can be accessed within the model by usi
 <p><hr>
 <a id="method-to_json"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>to_json()</code></h3>
 <p>Convert Experimental Design to a JSON format</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>crcexperiment</span><span class='op'>$</span><span class='fu'>to_json</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>crcexperiment</span><span class='op'>$</span><span class='fu'>to_json</span><span class='op'>(</span><span class='va'>experimental_design</span><span class='op'>)</span></pre><p></div></p>
 
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>experimental_design</code></dt><dd><p>is a data.frame containing an experimental design to be parsed to json.</p></dd>
+
+</dl><p></div></p>
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Details</h4>
 <p>Creates a data.frame in which each row represents a single experiment. The json object included in each row contains all information that the models need to re-create themselves in the server-side in a HPC workflow.</p>
 
