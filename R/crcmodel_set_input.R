@@ -23,7 +23,7 @@
 crcmodel_set_input = function(self, name, value, type) {
 
   if(missing(type)){
-    type = "default"
+    type = "nh"
   }
 
   # if input already exists, then update the table:
