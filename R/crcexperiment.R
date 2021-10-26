@@ -28,43 +28,37 @@ crcexperiment <- R6::R6Class(
 
     #' @field models is a list containing crcmodel objects.
     models = NULL,
-    #' @field nh_design is a table containing one row per experiment to be ran.
+    #' @field nh_design is a data.frame containing one row per natural history experiment to be run.
     nh_design = NULL,
 
-    #' @field screening_design is a table containing one row per experiment to be ran.
+    #' @field screening_design is a data.frame containing one row per screening experiment to be run.
     screening_design = NULL,
 
-    #' @field nh_json_design is a data.frame containing data from the experimental design in json format.
-    nh_json_design = NULL,
-
-    #' @field screening_json_design is a data.frame containing data from the experimental design in json format.
-    screening_json_design = NULL,
-
-    #' @field grid is a table containing one row per point in the grid experimental design.
+    #' @field grid is a data.frame containing one row per point in the grid experimental design.
     grid = NULL,
 
-    #' @field lhs is a table containing one row per point in the lhs experimental design.
+    #' @field lhs is a table containing one row per point in the Latin Hypercube experimental design.
     lhs = NULL,
 
     #' @field blocks is the number of population blocks used in the experimental design. This number of population blocks allows us to divide the experimental design into experimental blocks.
     blocks = NULL,
 
-    #' @field posteriors is a table containing one row per parameter set defined in the posterior of each model included in the experiment.
+    #' @field posteriors is a data.frame containing one row per parameter set defined in the posterior of each model included in the experiment.
     posteriors = NULL,
 
     #' @field experimental_parameters is a list containing details about each experimental parameter. Experimental parameters can be either policy levers or uncertainties. Defining this distinction is up to the user.
     experimental_parameters = list(),
 
     #' @description
-    #' Create a new `crcexperiment` object.
-    #' @param ... set of crcmodels to be included in the experiment.
-    #' @return s new `crcexperiment` object.
+    #' This function is used to initialize a `crcexperiment` object. This object represents an experiment that will be run and can encompass multiple models.
+    #' @param ... set of crcmodels to be included in the experiment. One `crcexperiment` can contain multiple models of the `crcmodel` class.
+    #' @return a new `crcexperiment` object.
     initialize = function(...) {
       self$models <- list(...)
     },
 
     #' @description
-    #' Set Parameter
+    #' Set Experimental Parameter for the Experiment
     #'
     #' @details
     #' This function constructs the experimental_parameter object, and appends experimental parameters that will be visible inside the model in the future.
@@ -84,12 +78,14 @@ crcexperiment <- R6::R6Class(
     #' Set Experimental Design
     #'
     #' @details
-    #' Creates the experimental_design data.frame based on the paramers defined by the set_parameter functions. The experimental design created by this function is useful to run a typical RDM analysis where each policy is evaluated across a LHS of deep uncertainties. To achieve that, define each policy lever as a grid parameter, and each uncertainty as an "lhs" uncertainty.
+    #' Creates two data.frames that represent the experimental design" the `nh_design` for natural history experiments and the `screening_design` for screening experiments. These experimental designs are created based on the parameters defined by the set_parameter functions. The experimental design created by this function is useful to run a typical RDM analysis where each policy is evaluated across a LHS of deep uncertainties. To achieve that, define each policy lever as a grid parameter, and each uncertainty as an "lhs" uncertainty. Natural history uncertainties are often already defined in the model's posterior file and are also considered.
+    #' The natural history design will have `n_posterior` runs for each model in the experimental design.
+    #' The screening experimental design will have `blocks` \* `n_lhs` \* `n_grid_points` \* `n_posterior` for each model in the experimental design.
     #'
     #' @param n_lhs The number of points in the Latin Hypercube Sample to be created.
     #' @param blocks is the number of population blocks to use to parallelize the runs across nodes.
     #' @param grid_design_df a data.frame containing a pre-existing experimental design to be used. This function will use this experimental design in lieu of parameters defined in the grid, so this effectively replaces any set of parameters that are part of a grid design.
-    #' @param convert_lhs_to_grid Default is FALSE. If TRUE, this function convert the LHS parameters to a grid design. Often is used when testing the "corners" of the experimental design before performing a full LHS run.
+    #' @param convert_lhs_to_grid Default is FALSE. If TRUE, this function convert the LHS parameters to "grid" parameters. This is useful when one needs to test the "corners" of the experimental design before performing a full LHS run.
     #' @param lhs_to_grid_midpoints Only relevant when convert_to_lhs = T. Default value is 0. This should be an integer determining how many points within the grid hypercube should be created for the parameters being converted from LHS to a GRID design. For example, if convert_lhs_to_grid = T and lhs_to_grid_midpoints = 0, this function will create a full factorial design of the LHS parameters with 2^n points. If one wants to use one midpoint, then the design will have 3^n points, and so on. This parameter does not affect parameters orignally defined as part of a grid design because their values have already been set.
     set_design = function(n_lhs, blocks = 1, grid_design_df, convert_lhs_to_grid = F, lhs_to_grid_midpoints = 0){
       crcexperiment_set_design(self = self, n_lhs = n_lhs, blocks = blocks, grid_design_df = grid_design_df, convert_lhs_to_grid = convert_lhs_to_grid, lhs_to_grid_midpoints = lhs_to_grid_midpoints)

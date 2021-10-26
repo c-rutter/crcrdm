@@ -101,9 +101,16 @@ All model inputs shoulhd be added or modified through this function. Inputs can 
 \subsection{Method \code{to_json()}}{
 Converts a `crcmodel` to a JSON string
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{crcmodel$to_json()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{crcmodel$to_json(input_types)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{input_types}}{vector of input types to include in the json object.}
+}
+\if{html}{\out{</div>}}
+}
 \subsection{Returns}{
 a JSON string containing the crcmodel objects that should be exported
 }
