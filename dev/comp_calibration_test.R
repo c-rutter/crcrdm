@@ -1,9 +1,11 @@
-library(crcspin)
-library(dplyr)
 
-devtools::load_all()
+
 
 attachment::att_amend_desc()
+
+devtools::load_all()
+library(crcspin)
+library(dplyr)
 
 # Creating a model --------------------------------------------------------
 model = crcspin$new(name = "crcspin v2.1")
@@ -14,20 +16,26 @@ model$set_posterior(posteriors_list = list(v2_4 = read.csv("./dev/good.modelparm
                     n_posterior = 50,
                     seed = 1234)
 
+
 # Creating an experiment --------------------------------------------------
 # An experiment can contain more than one model, each with their onw posteriors:
 experiment = crcexperiment$new(model)
+
+
+# External grid:
+grid_design = expand.grid(c(1:10), c(10:201))
+
 # Create an experimental design:
-experiment$set_design(blocks = 10)
+experiment$
+  set_parameter(parameter_name = "abc",experimental_design = "lhs",min = 1, max = 10)$
+  set_design(n_lhs = 20, grid_design_df = grid_design)
 
-View(experiment$nh_json_design)
 
-View(experiment$screening_json_design)
+View(experiment$screening_design)
 
-View(experiment$json_design)
+dput(class(experiment$nh_design))
+c("data.table", "data.frame")
 
-# Methods Missing in the experiment:
-experiment$run # runs the experiment
 
 # Required for the Comparative Calibration Paper:
 # Maybe this code should be in the HPC side of things.

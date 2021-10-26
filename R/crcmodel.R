@@ -76,9 +76,10 @@ crcmodel <- R6::R6Class(
 
     #' @description
     #' Converts a `crcmodel` to a JSON string
+    #' @param input_types vector of input types to include in the json object.
     #' @return a JSON string containing the crcmodel objects that should be exported
-    to_json = function() {
-      crcmodel_to_json(self = self, private = private)
+    to_json = function(input_types) {
+      crcmodel_to_json(self = self, private = private, types = input_types)
     },
 
     #' @description

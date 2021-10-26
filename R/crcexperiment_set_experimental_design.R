@@ -25,7 +25,7 @@
 #' @import dplyr
 #' @importFrom stats qunif
 #' @importFrom data.table as.data.table data.table
-crcexperiment_set_design = function(self, n_lhs, blocks, convert_lhs_to_grid, lhs_to_grid_midpoints) {
+crcexperiment_set_design = function(self, n_lhs, blocks, grid_design_df, convert_lhs_to_grid, lhs_to_grid_midpoints) {
 
   # convert LHS parameters to grid if requested:
   if(convert_lhs_to_grid) {
@@ -74,10 +74,18 @@ crcexperiment_set_design = function(self, n_lhs, blocks, convert_lhs_to_grid, lh
     lhs_experiments = data.frame(lhs.id = 1)
   }
 
+
   ## Getting a Data.Frame of Grid Parameters:
-  grid_params = Filter(f = function(a) a$experimental_design == "grid", self$experimental_parameters) %>%
-    sapply(., function(a) a[3]) %>%
-    expand.grid(.)
+  # use the grid_design_df if this data.frame was provided
+  if(!missing(grid_design_df)){
+    grid_params = as.data.frame(grid_design_df)
+
+  # if grid_design_df was not provided, then
+  } else {
+    grid_params = Filter(f = function(a) a$experimental_design == "grid", self$experimental_parameters) %>%
+      sapply(., function(a) a[3]) %>%
+      expand.grid(.)
+  }
 
   # If there are no grid parameters, then there's only one point in the grid.
   if(nrow(grid_params)>0){
@@ -89,6 +97,7 @@ crcexperiment_set_design = function(self, n_lhs, blocks, convert_lhs_to_grid, lh
 
   # Getting Rid of the .values appendix
   names(grid_params) = sub(pattern = '.values',replacement =  '',x = names(grid_params))
+
 
   # Obtaining a table for models and their parameters in the posterior:
   models_df = data.frame(model.name = sapply(self$models, '[[',"name")) %>%
@@ -150,11 +159,9 @@ crcexperiment_set_design = function(self, n_lhs, blocks, convert_lhs_to_grid, lh
 
   # For the Natural history design:
   self$nh_design = data.table::as.data.table(nh_design)
-  self$nh_json_design = self$to_json(nh_design)
 
   # For the Screening design
   self$screening_design = data.table::as.data.table(screening_design)
-  self$screening_json_design = self$to_json(screening_design)
 
   invisible(self)
 

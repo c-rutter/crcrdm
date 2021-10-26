@@ -88,10 +88,11 @@ crcexperiment <- R6::R6Class(
     #'
     #' @param n_lhs The number of points in the Latin Hypercube Sample to be created.
     #' @param blocks is the number of population blocks to use to parallelize the runs across nodes.
+    #' @param grid_design_df a data.frame containing a pre-existing experimental design to be used. This function will use this experimental design in lieu of parameters defined in the grid, so this effectively replaces any set of parameters that are part of a grid design.
     #' @param convert_lhs_to_grid Default is FALSE. If TRUE, this function convert the LHS parameters to a grid design. Often is used when testing the "corners" of the experimental design before performing a full LHS run.
     #' @param lhs_to_grid_midpoints Only relevant when convert_to_lhs = T. Default value is 0. This should be an integer determining how many points within the grid hypercube should be created for the parameters being converted from LHS to a GRID design. For example, if convert_lhs_to_grid = T and lhs_to_grid_midpoints = 0, this function will create a full factorial design of the LHS parameters with 2^n points. If one wants to use one midpoint, then the design will have 3^n points, and so on. This parameter does not affect parameters orignally defined as part of a grid design because their values have already been set.
-    set_design = function(n_lhs, blocks = 1, convert_lhs_to_grid = F, lhs_to_grid_midpoints = 0){
-      crcexperiment_set_design(self = self, n_lhs = n_lhs, blocks = blocks, convert_lhs_to_grid = convert_lhs_to_grid, lhs_to_grid_midpoints = lhs_to_grid_midpoints)
+    set_design = function(n_lhs, blocks = 1, grid_design_df, convert_lhs_to_grid = F, lhs_to_grid_midpoints = 0){
+      crcexperiment_set_design(self = self, n_lhs = n_lhs, blocks = blocks, grid_design_df = grid_design_df, convert_lhs_to_grid = convert_lhs_to_grid, lhs_to_grid_midpoints = lhs_to_grid_midpoints)
     },
 
     #' @description
@@ -100,12 +101,44 @@ crcexperiment <- R6::R6Class(
     #' @details
     #' Creates a data.frame in which each row represents a single experiment. The json object included in each row contains all information that the models need to re-create themselves in the server-side in a HPC workflow.
     #'
-    #' @param experimental_design is a data.frame containing an experimental design to be parsed to json.
-    #'
-    to_json = function(experimental_design){
-      crcexperiment_to_json(self = self, experimental_design = experimental_design)
-    }
+    #' @param json_folder folder where json experimental designs should be saved. Do not specify a file name. If missing, the function will return the design specified below.
+    #' @param design "natural_history", "screening" or "both". If missing, "both" is assumed.
+    to_json = function(json_folder, design){
 
+      if(missing(design)){
+        design = "both"
+      }
+
+      # Write JSON design to disk if user provided a json_path
+      if(!missing(json_folder)){
+
+        dir.create(json_folder, showWarnings = F)
+
+        if(design %in% c("natural_history", "both")){
+
+          message("Writing Natural History Experimental Design JSON File")
+          write.table(x = crcexperiment_to_json(self = self, experimental_design = self$nh_design, type = "nh"),
+                      file = paste0(json_folder,"nh_design.txt"), row.names = F, col.names = F,quote = F)
+        }
+
+        if(design %in% c("screening", "both")){
+          message("Writing Screening Experimental Design JSON File")
+          write.table(x = crcexperiment_to_json(self = self, experimental_design = self$screening_design, type = "screening"),
+                      file = paste0(json_folder,"screening_design.txt"), row.names = F, col.names = F,quote = F)
+        }
+
+      # If folder was not provided, then return the desired experimental design.
+
+      } else {
+        json_design = switch(design,
+                natural_history = crcexperiment_to_json(self = self, experimental_design = self$nh_design, type = "nh"),
+                screening = crcexperiment_to_json(self = self, experimental_design = self$screening_design, type = "screening"),
+                both = list(natural_history = crcexperiment_to_json(self = self, experimental_design = self$nh_design, type = "nh"),
+                            screening = crcexperiment_to_json(self = self, experimental_design = self$screening_design, type = "screening"))
+        )
+        return(json_design)
+      }
+    }
 
   ),
   # Use private to hold data that will not be accessed by the user directly.
