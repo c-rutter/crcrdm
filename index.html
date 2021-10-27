@@ -66,12 +66,13 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="crcrdm-hpc-and-robust-decision-making-tools-for-crc-models" class="section level1">
+<div id="crcrdm-hpc-and-robust-decision-making-tools-for-cancer-screening-models" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#crcrdm-hpc-and-robust-decision-making-tools-for-crc-models" class="anchor"></a>crcrdm: HPC and Robust Decision Making tools for CRC models</h1></div>
+<a href="#crcrdm-hpc-and-robust-decision-making-tools-for-cancer-screening-models" class="anchor"></a>crcrdm: HPC and Robust Decision Making tools for Cancer Screening Models</h1></div>
 <!-- badges: start -->
 
-<p>This package implements the <code>crcmodel</code> and the <code>crcexperiment</code> R6 classes and can be used to perform Robust Decision Making Analyses of multiple cancer screening models using High-Performance Computing resources. The package supports common tasks, such as defining and conducting Probabilistic Sensitivity Analyses (PSAs) with one or multiple models. The package is also designed to support High-Performance Computing workflows using EMEWS using the EMEWS EQ/SQL backend. This feature will allow efficient use of High-Performance computing resources for large-scale, long-running experiments that involve simulating a large population over thousands of simulation runs.</p>
+<p>This package implements the <code>crcmodel</code> and the <code>crcexperiment</code> R6 classes and can be used to perform Robust Decision Making Analyses of multiple cancer screening models using High-Performance Computing resources. The package supports large-scale computational tasks that have historically been deemed unfeasible for microsimulation models, such as defining and conducting Probabilistic Sensitivity Analyses (PSAs) or robustness analyses of large models and large combinations of parameter sets.</p>
+<p>The package is designed to support High-Performance Computing workflows using EMEWS using the EMEWS UPF or the EQ/SQL backend. These features allow for efficient use of High-Performance computing resources for large-scale, long-running computational experiments.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
@@ -83,18 +84,25 @@
 <div id="status" class="section level2">
 <h2 class="hasAnchor">
 <a href="#status" class="anchor"></a>Status</h2>
-<p>This package is under development, and will be used in Robust Decision Making analyses that use cancer screening models.</p>
-<p>This repository <strong>does not</strong> contain code for the models used within those analyses, and is made public primarily to allow for automatic installation across HPC systems and to support continuous integration workflows in repositories that depend on this package. You should not use or rely on this package unless you are involved in these development efforts.</p>
+<p>This package is <strong>under development</strong>, and will be used in Robust Decision Making analyses that use cancer screening models. At this time, the package is not appropriate for general use.</p>
+<p>This repository <strong>does not</strong> contain code for the models used within those analyses, and is made public to allow for automatic installation across HPC systems and to support continuous integration workflows in repositories that depend on this package. At this time, you <strong>should not use or rely on this package</strong> unless you are involved in these development efforts.</p>
+</div>
+<div id="documentation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#documentation" class="anchor"></a>Documentation</h2>
+<p>A documentation page is available <a href="https://c-rutter.github.io/crcrdm">at this link</a>. This documentation page describes the package main classes and their methods.</p>
 </div>
 <div id="package-design-and-requirements" class="section level2">
 <h2 class="hasAnchor">
 <a href="#package-design-and-requirements" class="anchor"></a>Package Design and Requirements</h2>
-<p>This package builds from <a href="https://github.com/RANDCorporation/covid-19-reopening-california">our prior work with COVID-19</a> and is inspired by other RDM-related packages such as <a href="https://github.com/Project-Platypus/Rhodium">Rhodium</a> and the <a href="https://emaworkbench.readthedocs.io/en/latest/overview.html">EMA Workbench</a>. However, most of the features of those packages are not helpful for CRC models (or health microsimulation models) for several reasons. In CRC and health outcome models, much of the process of addressing uncertainties lies in how models are specified and calibrated, and these concerns are not addressed by those packages.</p>
+<p>This package builds from <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0259166">our prior COVID-19 work</a> and is inspired by other RDM-related packages such as <a href="https://github.com/Project-Platypus/Rhodium">Rhodium</a> and the <a href="https://emaworkbench.readthedocs.io/en/latest/overview.html">EMA Workbench</a>. However, most of the features of those packages are not helpful for CRC models (or health microsimulation models) for several reasons. In CRC and health outcome models, much of the process of addressing uncertainties lies in how models are specified and calibrated, and these concerns are not addressed by those packages. Moreover, cohort microsimulation models require us to simulate a natural history model over a population before running intervention scenarios, and uncertainties can affect both the natural history and interventions. Therefore, these models do not benefit from the experimental designs created in of-the-shelf packages.</p>
 <p>With that in mind, this package will need to:</p>
 <ol>
+<li><p><strong>Handle experimental designs appropriate for cancer screening models with a natural history and a screening component:</strong> The package will be designed for cancer microsimulation models with a natural history and a screening component.</p></li>
+<li><p><strong>Handle results from Bayesian Calibration</strong>: A credible approach to handle uncertainty in cancer microsimulation models is to perform bayesian inference of unobservable parameters related to the natural history of the cancer. The package will accommodate one or multiple sets of parameters resulting from model calibration exercises.</p></li>
 <li><p><strong>Accommodate multiple models or multiple versions of the same model:</strong> The questions we pose could require us to build multi-model analyses. We might have to compare the baseline specification of a model to new specifications (e.g., accounting for the SSP pathway). Using this package shouldn’t be harder than running multiple regressions with different functional forms.</p></li>
 <li>
-<p><strong>Be EMEWS-compatible by design:</strong> This package needs to be compatible with EMEWS, so we can use Argonne’s HPC systems efficiently. This is not too hard, but important design decisions need to be made and enforced such that there is a clear separation between specifying the model, specifying a calibration exercise, running the calibration exercise, then collecting results. We should be able to run any computation-intensive task in three modes, which roughly correspond to three phases of model development and use:</p>
+<p><strong>Be EMEWS-compatible by design:</strong> This package needs to be compatible with EMEWS, so we can use Argonne’s HPC systems efficiently. This is not too hard, but important design decisions need to be made and enforced such that there is a clear separation between specifying the model, specifying an experimental design, running the model for the natural history and screening components, then collecting results. We should be able to run any computation-intensive task in three modes, which roughly correspond to three phases of model development and use:</p>
 <ol>
 <li><p><strong>Running it Locally - sequentially (for testing and debugging):</strong> During the first stages of model development, modelers are debugging their models and inspecting them in detail. Once the model is verified and “seems to be working”, they go to the next phase.</p></li>
 <li><p><strong>Running it in small servers or locally - in parallel</strong>: This scale (e.g. &lt; 100 h of CPU time) is more appropriate for small, proof-of-concept or sanity check runs. For example, modelers should do this before going big to test edge cases.</p></li>
@@ -102,19 +110,25 @@
 </ol>
 <p>These three modes are important and making it easy to navigate between them is crucial, especially with iterative approaches like RDM. This should allow modelers to do their modeling work, then to scale it with HPC systems as they become confident in the model - rather than having them trying to calibrate broken models in HPC systems because our setup was to inflexible to allow the appropriate process.</p>
 </li>
-<li><p><strong>Efficiently handle long-running tasks:</strong> Actual production runs can take days or weeks to complete, even with HPC resources. Our current approaches for dealing with this involve manual control of runs. We would like to have a better-designed process for these long-running tasks, and this package can accommodate that by intelligently setting simulation hyperparameters such that policy run tasks are divided and contained within wall-time limits and memory limits set in Argonne’s servers. Similarly, experiment runs should be randomized in a way that allows preliminary inspection of results. For policy experiments, we should be able to slowly draw tradeoff curves when we have only 10% of the design run. This helps us to fail fast rather than waiting long runs to complete only to discover that something was wrong.</p></li>
+<li><p><strong>Efficiently handle long-running tasks:</strong> Microsimulation model runs over thousands of parameter sets will take several thousand computing hours to complete and will require many terabytes of memory. These large-scale computational experiments can take days or weeks to complete, even with High-Performance Computing resources. Our current approaches for running large-scale experiments involve manual control of runs. We would like to have a better-designed process for these long-running tasks, and this package will accommodate that by intelligently setting simulation hyperparameters such that policy run tasks are divided and contained within wall-time limits and memory limits. Similarly, experiment runs should be randomized in a way that allows preliminary inspection of results. For policy experiments, we should be able to slowly draw tradeoff curves when we have only 10% of the design run, and we should be able to run the experiment over population sub-blocks before running it across the full population. This helps us to fail fast rather than waiting long runs to complete only to discover that something was wrong.</p></li>
 </ol>
+<p>The <code>crcrdm</code> package fulfills these five requirements. The version 1.0 of the package fulfills requirements 1-4, and version 1.5 will fulfill requirement 5.</p>
 </div>
 <div id="key-classes-crcmodel-and-crcexperiment" class="section level2">
 <h2 class="hasAnchor">
 <a href="#key-classes-crcmodel-and-crcexperiment" class="anchor"></a>Key classes: <code>crcmodel</code>, and <code>crcexperiment</code>:</h2>
-<p>To the purposes of the RDM analysis, we envision two key classes:</p>
+<p>This package implements two R6 classes:</p>
 <ol>
 <li>
 <code>crcmodel</code> : Is the basic unit and encompasses a single model structure. A <code>crcmodel</code> can be either calibrated or not. if it is calibrated, the model object can include the posterior distribution of its parameters. A single model may contain multiple posterior distributions when those parameter sets were created by different calibration runs, with potentially different targets or priors.</li>
 <li>
 <code>crcexperiment</code> : Contains the definition of an experiment experiment to be applied over the <code>crcmodel</code>s included in it.</li>
 </ol>
+</div>
+<div id="automated-tests-and-test-coverage" class="section level2">
+<h2 class="hasAnchor">
+<a href="#automated-tests-and-test-coverage" class="anchor"></a>Automated Tests and Test Coverage</h2>
+<p>This package is tested automatically after every commit across a few platforms. Results from these automated checks can be found <a href="https://github.com/c-rutter/crcrdm/actions">here</a>. A <a href="https://app.codecov.io/gh/c-rutter/crcrdm">test coverage report can be found here</a>.</p>
 </div>
 </div>
   </div>
