@@ -1,17 +1,12 @@
 Type: Package
 Package: crcrdm
-Title: Tools for Robust Decision Making analyses for CRC models
-Version: 0.1.0
+Title: Tools for Robust Decision Making analyses for Cancer Screening models
+Version: 1.0.0
 Author: Pedro Nascimento de Lima
 Maintainer: Pedro Nascimento de Lima <plima@rand.org>
 Description: This package implements the crcmodel and the crcexperiment R6
     classes and can be used to perform Robust Decision Making Analyses of
-    multiple models.  The package supports common tasks, such as defining
-    and conducting Probabilistic Sensitivity Analyses (PSAs) with one or
-    multiple models. The package is also designed to allow for
-    High-Performance Computing workflows using EMEWS using the EMEWS
-    EQ/SQL to allow efficient use of High-Performance computing resources
-    for large-scale, long-running experiments.
+    cancer screening models using High-Performance Computing resources.
 License: GPL (>= 2)
 Depends: 
     R (>= 3.4.0)
