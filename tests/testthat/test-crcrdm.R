@@ -1,24 +1,9 @@
 
 # Natural History Method --------------------------------------------------
 
-crcspin_simulate_natural_history = function(self, ...){
+# A natural history function for testing purposes
+model_simulate_natural_history = function(self, ...){
 
-  # Inputs set to the model can be accessed with:
-  #
-  #self$inputs$some_date
-  # inputs given directly to the function can be accessed with:
-  #p = list(...)
-  #p$some_parameter
-
-  # If the user wishes to remove this behavior and hard-code the model inputs, one can always do that.
-  # You should document self$inputs used by your model in your function.
-  # parameters in the posterior can be accessed with:
-  # self$posterior_params$risk.mean
-
-  # This form of running the model is attractive because it removes the need to hard-code model parameters between calls.
-  # Instead of passing parameters between functions, we can simply ask the model object to evaluate itself given its inputs.
-
-  # Ultimately, the natural history function returns a population data.frame (also an adenoma data.frame, but it doesn't matter)
   results = data.frame(p.id = 1:self$inputs$pop.size,
                        risk = rnorm(n = self$inputs$pop.size, mean = self$inputs$risk.mean, sd = self$inputs$risk.sd))
 
@@ -32,8 +17,8 @@ crcspin_simulate_natural_history = function(self, ...){
 
 }
 
-
-crcspin_simulate_screening = function(self, ...) {
+# A screening function for testing purposes
+model_simulate_screening = function(self, ...) {
 
   population = self$natural_history_results
 
@@ -54,7 +39,7 @@ crcspin_simulate_screening = function(self, ...) {
 # Creating a model object -------------------------------------------------
 
 # Creates a CRC model object and gives it a name.
-model = crcmodel$new(name = "CRCSPIN 2.1.1 - SSP")
+model = crcmodel$new(name = "model 2.1.1 - SSP")
 
 test_that("crcmodel was created", {
   expect_true(is.crcmodel(model))
@@ -78,9 +63,8 @@ test_that("input was created", {
   expect_true(model$inputs$pop.size == 1000)
 })
 
+
 ## Testing set posterior:
-
-
 # Set posterior -----------------------------------------------------------
 
 # Loading multiple posterior data.frames:
@@ -113,18 +97,30 @@ test_that("set_posterior works with averages", {
   expect_true(nrow(model$posterior_params) == 3)
 })
 
+model$set_natural_history_fn(model_simulate_natural_history)
+set.seed(1234)
+model$simulate_natural_history()
+
 test_that("simulate_natural_history works", {
-  model$set_natural_history_fn(crcspin_simulate_natural_history)
-  set.seed(1234)
-  model$simulate_natural_history()
   expect_equal(object = nrow(model$natural_history_results),expected = model$inputs$pop.size)
 })
+
+
+test_that("simulate_screening works", {
+  model$set_screening_fn(model_simulate_screening)
+  set.seed(1234)
+  results = model$simulate_screening()
+  expect_true(is.crcmodel(results))
+})
+
+
+
 
 
 # Test that model can be reconstituted from json:
 json = model$to_json()
 # Re-creating the model from json:
-new_model = crcmodel$new(name = "CRCSPIN 2.1.2 - SSP")
+new_model = crcmodel$new(name = "model 2.1.2 - SSP")
 new_model$set_inputs_from_json(json = json)
 
 test_that("to_json and set_input_from_json work", {
@@ -136,11 +132,26 @@ test_that("to_json and set_input_from_json work", {
 
 test_that("results from a json-converted model is identical to original model", {
 
-  new_model$set_natural_history_fn(crcspin_simulate_natural_history)
+  new_model$set_natural_history_fn(model_simulate_natural_history)
   set.seed(1234)
   new_model$simulate_natural_history()
 
   expect_identical(model$natural_history_results, new_model$natural_history_results)
+
+})
+
+
+# Testing alternative model inputs:
+
+test_that("set_inputs handles unusual inputs", {
+
+  expect_error(model$set_input())
+
+  # Unusual data-types
+  expect_warning(model$set_input(name = "some_date", value = as.Date("2021-01-01")))
+
+  # objects with different lengths:
+  expect_warning(model$set_input(name = "pop.size", value = c(1,2,3)))
 
 })
 
@@ -161,10 +172,11 @@ test_that("crcexperiment works", {
 })
 
 
-# An experiment can contain more than one model, each with their onw posteriors:
+# An experiment can contain more than one model, each with their own posteriors:
 experiment = crcexperiment$new(model)
 
 # Create an experimental design:
+
 experiment$
   set_parameter(parameter_name = "Test1",experimental_design = "grid", values = c("Colonoscopy", "FIT"))$
   set_parameter(parameter_name = "abc",experimental_design = "lhs",min = 1, max = 10)$
