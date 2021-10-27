@@ -150,8 +150,13 @@ test_that("set_inputs handles unusual inputs", {
   # Unusual data-types
   expect_warning(model$set_input(name = "some_date", value = as.Date("2021-01-01")))
 
+  expect_warning(model$set_input(name = "some_list", value = list(a = as.Date("2021-01-01")) ))
+
   # objects with different lengths:
   expect_warning(model$set_input(name = "pop.size", value = c(1,2,3)))
+
+  # lists with nested values:
+
 
 })
 
