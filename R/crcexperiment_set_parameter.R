@@ -40,11 +40,6 @@ crcexperiment_set_parameter = function(self, parameter_name, experimental_design
 
   }
 
-  # If experimental parameters object doesn't exist, create it:
-  if(is.null(self$experimental_parameters)) {
-    self$experimental_parameters = list()
-  }
-
   # The experimental design object is created here as a list aiming to allow us to pass any length of values in parameters that have a "grid" experimental design.
   if(experimental_design == "lhs") {
 
