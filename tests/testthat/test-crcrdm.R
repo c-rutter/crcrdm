@@ -1,9 +1,9 @@
 
-# Natural History Method --------------------------------------------------
+
+# Example natural history and screening methods ---------------------------
 
 # A natural history function for testing purposes
 model_simulate_natural_history = function(self, ...){
-
   results = data.frame(p.id = 1:self$inputs$pop.size,
                        risk = rnorm(n = self$inputs$pop.size, mean = self$inputs$risk.mean, sd = self$inputs$risk.sd))
 
@@ -14,7 +14,6 @@ model_simulate_natural_history = function(self, ...){
   self$natural_history_results = results
 
   invisible(self)
-
 }
 
 # A screening function for testing purposes
@@ -64,7 +63,6 @@ test_that("input was created", {
 })
 
 
-## Testing set posterior:
 # Set posterior -----------------------------------------------------------
 
 # Loading multiple posterior data.frames:
@@ -97,6 +95,10 @@ test_that("set_posterior works with averages", {
   expect_true(nrow(model$posterior_params) == 3)
 })
 
+
+
+# simulate_natural_history and screening ----------------------------------
+
 model$set_natural_history_fn(model_simulate_natural_history)
 set.seed(1234)
 model$simulate_natural_history()
@@ -116,8 +118,8 @@ test_that("simulate_screening works", {
 
 
 
+# json tests --------------------------------------------------------------
 
-# Test that model can be reconstituted from json:
 json = model$to_json()
 # Re-creating the model from json:
 new_model = crcmodel$new(name = "model 2.1.2 - SSP")
@@ -141,7 +143,7 @@ test_that("results from a json-converted model is identical to original model", 
 })
 
 
-# Testing alternative model inputs:
+# set_input tests ---------------------------------------------------------
 
 test_that("set_inputs handles unusual inputs", {
 
@@ -150,32 +152,37 @@ test_that("set_inputs handles unusual inputs", {
   # Unusual data-types
   expect_warning(model$set_input(name = "some_date", value = as.Date("2021-01-01")))
 
+  expect_warning(model$set_input(name = "some_list", value = list(a = as.Date("2021-01-01")) ))
+
   # objects with different lengths:
   expect_warning(model$set_input(name = "pop.size", value = c(1,2,3)))
+
+  # lists with nested values:
 
 })
 
 
-test_that("crcexperiment works", {
 
-  # An experiment can contain more than one model, each with their onw posteriors:
+# crcexperiment tests -----------------------------------------------------
+
+test_that("crcexperiment works with set_parameter", {
   experiment = crcexperiment$new(model)
 
-  # Create an experimental design:
   experiment$
     set_parameter(parameter_name = "Test1",experimental_design = "grid", values = c("Colonoscopy", "FIT"))$
     set_parameter(parameter_name = "abc",experimental_design = "lhs",min = 1, max = 10)$
     set_design(n_lhs = 2)
 
   expect_true(is.crcexperiment(experiment))
-
 })
 
+test_that("crcexperiment works without set_parameter", {
+  experiment = crcexperiment$new(model)
+  experiment$set_design()
+  expect_true(is.crcexperiment(experiment))
+})
 
-# An experiment can contain more than one model, each with their own posteriors:
 experiment = crcexperiment$new(model)
-
-# Create an experimental design:
 
 experiment$
   set_parameter(parameter_name = "Test1",experimental_design = "grid", values = c("Colonoscopy", "FIT"))$
@@ -183,21 +190,15 @@ experiment$
   set_design(n_lhs = 2, convert_lhs_to_grid = T)
 
 test_that("crcexperiment works with convert to grid = T", {
-
   expect_true(is.crcexperiment(experiment))
-
 })
 
 test_that("to_JSON returns a list with the experiment", {
-
   json_exp = experiment$to_json()
-
   expect_true(length(json_exp) == 2)
-
 })
 
 test_that("to_JSON can write to a file", {
-
   experiment$to_json(json_folder = "json-test/")
 
   expect_true(file.exists("./json-test/screening_design.txt"))
@@ -206,22 +207,13 @@ test_that("to_JSON can write to a file", {
   file.remove("./json-test/screening_design.txt")
   file.remove("./json-test/nh_design.txt")
   file.remove("./json-test/")
-
 })
 
 test_that("crcexperiment works with pre-existing design", {
-
-  # An experiment can contain more than one model, each with their onw posteriors:
   experiment = crcexperiment$new(model)
-
   # External grid:
   grid_design = expand.grid(c(1:10), c(10:13))
-
   # Create an experimental design:
-  experiment$
-    set_parameter(parameter_name = "abc",experimental_design = "lhs",min = 1, max = 10)$
-    set_design(n_lhs = 2, grid_design_df = grid_design)
-
+  experiment$set_design(grid_design_df = grid_design)
   expect_true(is.crcexperiment(experiment))
-
 })
