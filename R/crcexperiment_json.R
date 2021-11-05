@@ -41,6 +41,7 @@ experiment_to_json = function(experiment_row, self, type) {
   # For Natural History Experimental designs:
   if(type == "nh"){
     experiment_data = list(
+      blocks = self$blocks,
       experiment_row = as.list(experiment_row),
       inputs = self$models[[model_id]]$to_json(input_types = "nh"),
       params = self$models[[model_id]]$posterior_params %>%
@@ -52,6 +53,7 @@ experiment_to_json = function(experiment_row, self, type) {
   # For Screening Designs:
   if(type == "screening"){
     experiment_data = list(
+      blocks = self$blocks,
       experiment_row = as.list(experiment_row),
       inputs = self$models[[model_id]]$to_json(input_types = "screening")
     )

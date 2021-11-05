@@ -107,6 +107,13 @@ test_that("simulate_natural_history works", {
   expect_equal(object = nrow(model$natural_history_results),expected = model$inputs$pop.size)
 })
 
+test_that("get_people_in_block works", {
+  expect_equal(object = length(get_people_in_block(person_ids = model$natural_history_results$p.id, blocks = 1, block_id = 1)),expected = nrow(model$natural_history_results))
+  expect_equal(object = length(get_people_in_block(person_ids = model$natural_history_results$p.id, blocks = 2, block_id = 1)),expected = nrow(model$natural_history_results)/2)
+  expect_equal(object = get_people_in_block(person_ids = model$natural_history_results$p.id, blocks = 2, block_id = 2),expected = (nrow(model$natural_history_results)/2 + 1):nrow(model$natural_history_results))
+})
+
+
 
 test_that("simulate_screening works", {
   model$set_screening_fn(model_simulate_screening)

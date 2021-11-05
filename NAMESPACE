@@ -2,6 +2,7 @@
 
 export(crcexperiment)
 export(crcmodel)
+export(get_people_in_block)
 export(is.crcexperiment)
 export(is.crcmodel)
 import(R6)
