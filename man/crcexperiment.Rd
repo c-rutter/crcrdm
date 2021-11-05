@@ -137,7 +137,7 @@ The screening experimental design will have `blocks` \* `n_lhs` \* `n_grid_point
 \subsection{Method \code{to_json()}}{
 Convert Experimental Design to a JSON format
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{crcexperiment$to_json(json_folder, design)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{crcexperiment$to_json(json_folder, design, write_inputs = T)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -146,6 +146,8 @@ Convert Experimental Design to a JSON format
 \item{\code{json_folder}}{folder where json experimental designs should be saved. Do not specify a file name. If missing, the function will return the design specified below.}
 
 \item{\code{design}}{"natural_history", "screening" or "both". If missing, "both" is assumed.}
+
+\item{\code{write_inputs}}{if TRUE (default), writes model inputs to json. Might be unnecessary when inputs are set in the model run script.}
 }
 \if{html}{\out{</div>}}
 }

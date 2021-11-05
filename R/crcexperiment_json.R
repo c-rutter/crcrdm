@@ -20,9 +20,9 @@
 # Manipulating model inputs as JSON objects ------------------------------------
 
 # Converts a CRCmodel to a JSON string
-crcexperiment_to_json <- function(self, experimental_design, type){
+crcexperiment_to_json <- function(self, experimental_design, type, write_inputs){
   # Create a data.frame of json objects.
-  data.frame(json_inputs = apply(experimental_design, 1, experiment_to_json, self = self, type = type)) %>%
+  data.frame(json_inputs = apply(experimental_design, 1, experiment_to_json, self = self, type = type, write_inputs = write_inputs)) %>%
     mutate(json_inputs = json_inputs)
 }
 
@@ -30,7 +30,7 @@ crcexperiment_to_json <- function(self, experimental_design, type){
 
 # Converts a single experiment in the experimental design to a json object:
 
-experiment_to_json = function(experiment_row, self, type) {
+experiment_to_json = function(experiment_row, self, type, write_inputs) {
 
   model_id = as.integer(experiment_row["model.id"])
   param_id = as.integer(experiment_row["param.id"])
@@ -43,20 +43,28 @@ experiment_to_json = function(experiment_row, self, type) {
     experiment_data = list(
       blocks = self$blocks,
       experiment_row = as.list(experiment_row),
-      inputs = self$models[[model_id]]$to_json(input_types = "nh"),
       params = self$models[[model_id]]$posterior_params %>%
         dplyr::filter(param.id == param_id) %>%
         dplyr::select(-dplyr::any_of(c("posterior.df.id", "posterior.df.name", "posterior.orig.row.id", "posterior.df.row.id", "param.id", "model.id")))
     )
+
+    if(write_inputs){
+      experiment_data$inputs = self$models[[model_id]]$to_json(input_types = "nh")
+    }
+
   }
 
   # For Screening Designs:
   if(type == "screening"){
     experiment_data = list(
       blocks = self$blocks,
-      experiment_row = as.list(experiment_row),
-      inputs = self$models[[model_id]]$to_json(input_types = "screening")
+      experiment_row = as.list(experiment_row)
     )
+
+    if(write_inputs){
+      experiment_data$inputs = self$models[[model_id]]$to_json(input_types = "screening")
+    }
+
   }
 
   jsonlite::serializeJSON(experiment_data, digits = 10)
