@@ -222,13 +222,15 @@ The screening experimental design will have `blocks` \* `n_lhs` \* `n_grid_point
 <p><hr>
 <a id="method-to_json"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>to_json()</code></h3>
 <p>Convert Experimental Design to a JSON format</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>crcexperiment</span><span class='op'>$</span><span class='fu'>to_json</span><span class='op'>(</span><span class='va'>json_folder</span>, <span class='va'>design</span><span class='op'>)</span></pre><p></div></p>
+<p><div class="r"></p><pre><span class='va'>crcexperiment</span><span class='op'>$</span><span class='fu'>to_json</span><span class='op'>(</span><span class='va'>json_folder</span>, <span class='va'>design</span>, write_inputs <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
 <p><div class="arguments"></p><dl>
 <dt><code>json_folder</code></dt><dd><p>folder where json experimental designs should be saved. Do not specify a file name. If missing, the function will return the design specified below.</p></dd>
 
 <dt><code>design</code></dt><dd><p>"natural_history", "screening" or "both". If missing, "both" is assumed.</p></dd>
+
+<dt><code>write_inputs</code></dt><dd><p>if TRUE (default), writes model inputs to json. Might be unnecessary when inputs are set in the model run script.</p></dd>
 
 </dl><p></div></p>
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Details</h4>
