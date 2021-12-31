@@ -1,24 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://c-rutter.github.io/crcrdm//index.html</loc>
+    <loc>https://c-rutter.github.io/crcrdm/404.html</loc>
   </url>
   <url>
-    <loc>https://c-rutter.github.io/crcrdm//reference/crcexperiment.html</loc>
+    <loc>https://c-rutter.github.io/crcrdm/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://c-rutter.github.io/crcrdm//reference/crcmodel.html</loc>
+    <loc>https://c-rutter.github.io/crcrdm/authors.html</loc>
   </url>
   <url>
-    <loc>https://c-rutter.github.io/crcrdm//reference/crcrdm.html</loc>
+    <loc>https://c-rutter.github.io/crcrdm/index.html</loc>
   </url>
   <url>
-    <loc>https://c-rutter.github.io/crcrdm//reference/get_people_in_block.html</loc>
+    <loc>https://c-rutter.github.io/crcrdm/news/index.html</loc>
   </url>
   <url>
-    <loc>https://c-rutter.github.io/crcrdm//reference/is.crcexperiment.html</loc>
+    <loc>https://c-rutter.github.io/crcrdm/reference/crcexperiment.html</loc>
   </url>
   <url>
-    <loc>https://c-rutter.github.io/crcrdm//reference/is.crcmodel.html</loc>
+    <loc>https://c-rutter.github.io/crcrdm/reference/crcmodel.html</loc>
+  </url>
+  <url>
+    <loc>https://c-rutter.github.io/crcrdm/reference/crcrdm.html</loc>
+  </url>
+  <url>
+    <loc>https://c-rutter.github.io/crcrdm/reference/get_people_in_block.html</loc>
+  </url>
+  <url>
+    <loc>https://c-rutter.github.io/crcrdm/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>https://c-rutter.github.io/crcrdm/reference/is.crcexperiment.html</loc>
+  </url>
+  <url>
+    <loc>https://c-rutter.github.io/crcrdm/reference/is.crcmodel.html</loc>
   </url>
 </urlset>
