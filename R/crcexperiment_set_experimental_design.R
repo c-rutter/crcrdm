@@ -153,7 +153,7 @@ crcexperiment_set_design = function(self, n_lhs, blocks, grid_design_df, convert
   screening_design = screening_design %>%
     left_join(grid_params, by = "grid.id") %>%
     left_join(lhs_experiments, by = "lhs.id") %>%
-    mutate(screning.exp.id = row_number())
+    mutate(screening.exp.id = row_number())
 
   # Save Experimental Design as a data.tables and json objects:
 
