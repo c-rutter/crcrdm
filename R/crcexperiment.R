@@ -100,7 +100,8 @@ crcexperiment <- R6::R6Class(
     #' @param json_folder folder where json experimental designs should be saved. Do not specify a file name. If missing, the function will return the design specified below.
     #' @param design "natural_history", "screening" or "both". If missing, "both" is assumed.
     #' @param write_inputs if TRUE (default), writes model inputs to json. Might be unnecessary when inputs are set in the model run script.
-    to_json = function(json_folder, design, write_inputs = T){
+    #' @param block_ids integer vector of block ids to write to json. can be used to only run specific blocks in the screening experimental design.
+    to_json = function(json_folder, design, write_inputs = T, block_ids){
 
       if(missing(design)){
         design = "both"
@@ -120,7 +121,7 @@ crcexperiment <- R6::R6Class(
 
         if(design %in% c("screening", "both")){
           message("Writing Screening Experimental Design JSON File")
-          write.table(x = crcexperiment_to_json(self = self, experimental_design = self$screening_design, type = "screening", write_inputs = write_inputs),
+          write.table(x = crcexperiment_to_json(self = self, experimental_design = self$screening_design, type = "screening", write_inputs = write_inputs, block_ids = block_ids),
                       file = paste0(json_folder,"screening_design.txt"), row.names = F, col.names = F,quote = F)
         }
 
@@ -129,9 +130,9 @@ crcexperiment <- R6::R6Class(
       } else {
         json_design = switch(design,
                 natural_history = crcexperiment_to_json(self = self, experimental_design = self$nh_design, type = "nh", write_inputs = write_inputs),
-                screening = crcexperiment_to_json(self = self, experimental_design = self$screening_design, type = "screening", write_inputs = write_inputs),
+                screening = crcexperiment_to_json(self = self, experimental_design = self$screening_design, type = "screening", write_inputs = write_inputs, block_ids = block_ids),
                 both = list(natural_history = crcexperiment_to_json(self = self, experimental_design = self$nh_design, type = "nh", write_inputs = write_inputs),
-                            screening = crcexperiment_to_json(self = self, experimental_design = self$screening_design, type = "screening", write_inputs = write_inputs))
+                            screening = crcexperiment_to_json(self = self, experimental_design = self$screening_design, type = "screening", write_inputs = write_inputs, block_ids = block_ids))
         )
         return(json_design)
       }

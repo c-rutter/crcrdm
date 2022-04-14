@@ -206,7 +206,7 @@ test_that("to_JSON returns a list with the experiment", {
 })
 
 test_that("to_JSON can write to a file", {
-  experiment$to_json(json_folder = "json-test/")
+  experiment$to_json(json_folder = "json-test/", block_ids = 1)
 
   expect_true(file.exists("./json-test/screening_design.txt"))
   expect_true(file.exists("./json-test/nh_design.txt"))
