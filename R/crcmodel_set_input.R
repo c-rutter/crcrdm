@@ -29,8 +29,6 @@ crcmodel_set_input = function(self, name, value, type) {
   # if input already exists, then update the table:
   if(name %in% self$inputs_table$name){
 
-    message(paste0("Input ", name, " already exists. Replacing it with new value."))
-
     # for safety reasons, let's ensure we are replacing objects with the same class and type:
     # This is too annoying because numerics and integers are not from the same class.
     #assertthat::assert_that(assertthat::are_equal(class(self$inputs[[name]]), class(value)), msg= paste0("You are not allowed to replace the input ", name, " which was ", class(self$inputs[[name]]), " with an object of class ", class(value)))
