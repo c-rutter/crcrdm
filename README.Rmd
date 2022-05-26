@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 [![Build & R-CMD Check - full](https://github.com/c-rutter/crcrdm/workflows/R-CMD-check-full/badge.svg)](https://github.com/c-rutter/crcrdm/actions)
 [![Test Coverage](https://github.com/c-rutter/crcrdm/workflows/test-coverage/badge.svg)](https://github.com/c-rutter/crcrdm/actions)
 [![codecov](https://codecov.io/gh/c-rutter/crcrdm/branch/master/graph/badge.svg?token=G4E73T9WOO)](https://codecov.io/gh/c-rutter/crcrdm)
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-blue.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-green.svg)](https://www.tidyverse.org/lifecycle/#stable)
 <!-- badges: end -->
 
 Characterizing the robustness of policy recommendations to uncertain assumptions is a crucial concern of modelers. While the computational cost of uncertainty analyses can be high, High-Performance Computing (HPC) is increasingly ubiquitous and accessible. Nevertheless, using HPC tools involves a steep learning curve, which may hinder their adoption.
@@ -44,9 +44,7 @@ remotes::install_github("c-rutter/crcrdm")
 
 ## Status
 
-This package is being actively used by the crcspin model, which itself is not contained in the package.
-
-This repository **does not** contain code for the models used within those analyses, and is made public to allow for automatic installation across HPC systems and to support continuous integration workflows in repositories that depend on this package.
+This package is being actively used by the crcspin model, which itself is not contained in the package. The user pool for this package is small and we have no plans of releasing it to CRAN at this time. If you would like to use it, get in touch.
 
 ## Documentation
 
