@@ -44,7 +44,7 @@ remotes::install_github("c-rutter/crcrdm")
 
 ## Status
 
-This package is being actively used by the crcspin model, which itself is not contained in the package. The user pool for this package is small and we have no plans of releasing it to CRAN at this time. If you would like to use it, get in touch.
+This package is being actively used by the crcspin model, which itself is not contained in the package. The user pool for this package is very small and we have no plans of releasing it to CRAN at this time. Future iterations of this work might make this package more general. If you would like to use this package and are interested in collaborating with us, get in touch.
 
 ## Documentation
 
