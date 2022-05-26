@@ -106,8 +106,9 @@ crcmodel <- R6::R6Class(
     #' @param n_posterior the size of the sample to take from each posterior file.
     #' @param use_average T if one wants to use the average value of all parameters rather than the mean
     #' @param seed random seed to use when sampling from the posterior
-    set_posterior = function(posteriors_list, posterior_weights, cols_to_ignore = NULL, n_posterior, use_average = F, seed = 12345678){
-      crcmodel_set_posterior(self = self, posteriors_list = posteriors_list, posterior_weights = posterior_weights, cols_to_ignore = cols_to_ignore, use_average = use_average, n_posterior = n_posterior, seed = seed)
+    #' @param resample if T, samples from the posterior using the posterior weights. Otherwise, returns the full posterior, and preservers the weights.
+    set_posterior = function(posteriors_list, posterior_weights, cols_to_ignore = NULL, n_posterior = 1000, use_average = F, seed = 12345678, resample = T){
+      crcmodel_set_posterior(self = self, posteriors_list = posteriors_list, posterior_weights = posterior_weights, cols_to_ignore = cols_to_ignore, use_average = use_average, n_posterior = n_posterior, seed = seed, resample = resample)
     },
 
     #' @description

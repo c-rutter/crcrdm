@@ -86,6 +86,13 @@ test_that("set_posterior works", {
   expect_true(nrow(model$posterior_params) == 30)
 })
 
+# Set posterior works without sampling:
+model$set_posterior(posteriors_list = list(pa = posterior.a, pb = posterior.b, pc = posterior.b),
+                    posterior_weights = "weights", resample = F)
+
+test_that("set_posterior works without resampling", {
+  expect_true(nrow(model$posterior_params) == 3000)
+})
 
 # Here we set the posterior of the model using three posterior files:
 model$set_posterior(posteriors_list = list(pa = posterior.a, pb = posterior.b, pc = posterior.b),

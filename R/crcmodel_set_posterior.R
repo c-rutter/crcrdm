@@ -16,7 +16,7 @@
 #------------------------------------------------------------------------------#
 
 # See documentation in the crcmodel class.
-crcmodel_set_posterior = function(self, posteriors_list, posterior_weights, cols_to_ignore, use_average, n_posterior, seed) {
+crcmodel_set_posterior = function(self, posteriors_list, posterior_weights, cols_to_ignore, use_average, n_posterior, seed, resample) {
 
   # Setting a seed for reproducibility because this function will create a sample:
   if(!missing(seed)){
@@ -77,15 +77,19 @@ crcmodel_set_posterior = function(self, posteriors_list, posterior_weights, cols
     assertthat::assert_that(!missing(n_posterior), msg = "n_posterior parameter must be provided.")
 
     # Use the purrr::map_dfr function to sample from the posterior distribution for each posterior file provided.
-    posterior_params <- purrr::map_dfr(.x = posteriors_list, .f = sample_from_posterior, n_posterior = n_posterior, posterior_weights = posterior_weights) %>%
+    posterior_params <- purrr::map_dfr(.x = posteriors_list, .f = sample_from_posterior, n_posterior = n_posterior, posterior_weights = posterior_weights, resample = resample) %>%
       dplyr::mutate(param.id = row_number())
 
     row.names(posterior_params) = NULL
   }
 
   # The main result of this function is the posterior_params data.frame, which we assign to self:
-  self$posterior_params = posterior_params %>%
-    dplyr::select(-any_of(posterior_weights))
+  self$posterior_params = posterior_params
+
+  if (resample) {
+    self$posterior_params <- self$posterior_params %>%
+      dplyr::select(-any_of(posterior_weights))
+  }
 
   # Return the model object:
   invisible(self)
@@ -99,14 +103,19 @@ crcmodel_set_posterior = function(self, posteriors_list, posterior_weights, cols
 # Sample from Posterior ------------------------------------------
 
 # This internal function samples from the posterior distribution. It is defined here because it is only used by the set_posterior function.
-sample_from_posterior = function(posterior_data_frame, n_posterior, posterior_weights) {
+sample_from_posterior = function(posterior_data_frame, n_posterior, posterior_weights, resample) {
 
   # Assign an id to the original posterior table:
   posterior_data_frame = posterior_data_frame %>%
     mutate(posterior.orig.row.id = dplyr::row_number())
 
   # Next, sample from the posterior with replacement:
-  ids_to_select = sample(x = posterior_data_frame$posterior.orig.row.id, size = n_posterior, replace = T, prob = posterior_data_frame[,posterior_weights])
+  if(resample){
+    ids_to_select = sample(x = posterior_data_frame$posterior.orig.row.id, size = n_posterior, replace = T, prob = posterior_data_frame[,posterior_weights])
+  # Or don't resample at all and return the posterior directly
+    } else {
+    ids_to_select = posterior_data_frame$posterior.orig.row.id
+  }
 
   # Selects these rows from the data.frame:
   posterior_sample = posterior_data_frame[ids_to_select,] %>%
@@ -121,7 +130,8 @@ sample_from_posterior = function(posterior_data_frame, n_posterior, posterior_we
 
 # This private function is used to calculate weighted averages if the user wants them.
 calculate_weighted_averages = function(df, posterior_weights) {
-  # Calculate a normalized_weights variable to ensure that the weighted average will be correct:
+  # Calculate a normalized_weights variable to ensure that the weighted average will be correct
+  # And the weights add up to one.
   df$normalized_weights = df[,posterior_weights] / sum(df[,posterior_weights])
 
   # Calculate the weighted average for every numeric variable:
