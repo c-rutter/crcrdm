@@ -19,7 +19,7 @@
 
 # Manipulating model inputs as JSON objects ------------------------------------
 
-# Converts a CRCmodel to a JSON string
+# Converts a crcexperiment to a JSON string
 crcexperiment_to_json <- function(self, experimental_design, type, write_inputs, block_ids){
   # Create a data.frame of json objects.
 
@@ -30,6 +30,17 @@ crcexperiment_to_json <- function(self, experimental_design, type, write_inputs,
 
   data.frame(json_inputs = apply(experimental_design, 1, experiment_to_json, self = self, type = type, write_inputs = write_inputs)) %>%
     mutate(json_inputs = json_inputs)
+}
+
+# Converts a crcexperiment to csv:
+crcexperiment_to_csv <- function(self, experimental_design, type, write_inputs, block_ids) {
+
+  # Filter block ids:
+  if(!missing(block_ids)) {
+    experimental_design <- experimental_design %>%
+      dplyr::filter(block.id %in% block_ids)
+  }
+
 }
 
 # Auxiliary functions to transform an experimental design table to a json object.

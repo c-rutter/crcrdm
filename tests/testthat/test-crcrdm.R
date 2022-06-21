@@ -208,12 +208,12 @@ test_that("crcexperiment works with convert to grid = T", {
 })
 
 test_that("to_JSON returns a list with the experiment", {
-  json_exp = experiment$to_json()
+  json_exp = experiment$write_design()
   expect_true(length(json_exp) == 2)
 })
 
 test_that("to_JSON can write to a file", {
-  experiment$to_json(json_folder = "json-test/", block_ids = 1)
+  experiment$write_design(path = "json-test/", block_ids = 1)
 
   expect_true(file.exists("./json-test/screening_design.txt"))
   expect_true(file.exists("./json-test/nh_design.txt"))
