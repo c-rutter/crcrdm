@@ -29,6 +29,7 @@ get_people_in_block = function(person_ids, blocks, block_id) {
 
 # Returns the block ids of a set of people:
 get_block_ids = function(person_ids, blocks) {
+  # Number of people per block:
   n_blocks = max(person_ids) / blocks
   ceiling(person_ids / n_blocks) # + initial_person_id
 }

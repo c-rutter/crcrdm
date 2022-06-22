@@ -158,16 +158,23 @@ write_design = function(path, design, write_inputs = T, block_ids, format = "jso
                                                experimental_design = self$screening_design,
                                                type = "screening",
                                                write_inputs = write_inputs,
-                                               block_ids = block_ids)
+                                               block_ids = block_ids) %>%
+          mutate(across(where(is.logical), .fns = ~as.numeric(.x)))
 
         message(paste0("Writing Screening Experimental Design CSV File with ",
                        nrow(csv_exp_design),
                        " rows.")
                 )
 
-        write.csv(x = csv_exp_design,
+        # Write file:
+        write.table(x = csv_exp_design,
                   file = paste0(path,"screening_design.txt"),
-                  row.names = F)
+                  row.names = F, col.names = F, append = F, sep = ",")
+
+        # Write column names:
+        write.table(x = names(csv_exp_design),
+                  file = paste0(path,"screening_design_col_names.txt"),
+                  row.names = F, col.names = F, append = F, sep = ",")
 
       }
 
