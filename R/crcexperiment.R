@@ -136,6 +136,14 @@ write_design = function(path, design, write_inputs = T, block_ids, format = "jso
 
     if(design %in% c("screening", "both")){
 
+      # Define name of the screening design file:
+      if(!missing(block_ids)) {
+        file_name = paste0(path,"screening_design_blocks_",min(block_ids),"_",max(block_ids),".txt")
+      } else {
+        paste0(path,"screening_design.txt")
+      }
+
+
       if(format == "json") {
         json_exp_design = crcexperiment_to_json(self = self,
                                                 experimental_design = self$screening_design,
@@ -147,8 +155,11 @@ write_design = function(path, design, write_inputs = T, block_ids, format = "jso
                        nrow(json_exp_design), " json rows.")
                 )
 
+
+
+
         write.table(x = json_exp_design,
-                    file = paste0(path,"screening_design.txt"),
+                    file = file_name,
                     row.names = F, col.names = F,quote = F)
 
       }
@@ -168,7 +179,7 @@ write_design = function(path, design, write_inputs = T, block_ids, format = "jso
 
         # Write file:
         write.table(x = csv_exp_design,
-                  file = paste0(path,"screening_design.txt"),
+                  file = file_name,
                   row.names = F, col.names = F, append = F, sep = ",")
 
         # Write column names:
