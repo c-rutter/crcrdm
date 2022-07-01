@@ -7,6 +7,8 @@ Maintainer: Pedro Nascimento de Lima <plima@rand.org>
 Description: This package implements the crcmodel and the crcexperiment R6
     classes and can be used to perform Robust Decision Making Analyses of
     cancer screening models using High-Performance Computing resources.
+    The package produces ensembles of models and experimental designs ready to
+    be run with the Extreme-scale Model Exploration with Swift (EMEWS) framework.
 License: GPL (>= 2)
 Depends: 
     R (>= 3.4.0)
