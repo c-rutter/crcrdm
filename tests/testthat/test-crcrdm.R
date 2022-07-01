@@ -86,6 +86,13 @@ test_that("set_posterior works", {
   expect_true(nrow(model$posterior_params) == 30)
 })
 
+# Set posterior works without sampling:
+model$set_posterior(posteriors_list = list(pa = posterior.a, pb = posterior.b, pc = posterior.b),
+                    posterior_weights = "weights", resample = F)
+
+test_that("set_posterior works without resampling", {
+  expect_true(nrow(model$posterior_params) == 3000)
+})
 
 # Here we set the posterior of the model using three posterior files:
 model$set_posterior(posteriors_list = list(pa = posterior.a, pb = posterior.b, pc = posterior.b),
@@ -106,6 +113,13 @@ model$simulate_natural_history()
 test_that("simulate_natural_history works", {
   expect_equal(object = nrow(model$natural_history_results),expected = model$inputs$pop.size)
 })
+
+test_that("get_people_in_block works", {
+  expect_equal(object = length(get_people_in_block(person_ids = model$natural_history_results$p.id, blocks = 1, block_id = 1)),expected = nrow(model$natural_history_results))
+  expect_equal(object = length(get_people_in_block(person_ids = model$natural_history_results$p.id, blocks = 2, block_id = 1)),expected = nrow(model$natural_history_results)/2)
+  expect_equal(object = get_people_in_block(person_ids = model$natural_history_results$p.id, blocks = 2, block_id = 2),expected = (nrow(model$natural_history_results)/2 + 1):nrow(model$natural_history_results))
+})
+
 
 
 test_that("simulate_screening works", {
@@ -194,12 +208,12 @@ test_that("crcexperiment works with convert to grid = T", {
 })
 
 test_that("to_JSON returns a list with the experiment", {
-  json_exp = experiment$to_json()
+  json_exp = experiment$write_design()
   expect_true(length(json_exp) == 2)
 })
 
 test_that("to_JSON can write to a file", {
-  experiment$to_json(json_folder = "json-test/")
+  experiment$write_design(path = "json-test/", block_ids = 1)
 
   expect_true(file.exists("./json-test/screening_design.txt"))
   expect_true(file.exists("./json-test/nh_design.txt"))
