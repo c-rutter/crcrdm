@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">crcrdm</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,6 +39,22 @@
     </div>
 
     <div class="section level2"><h2 class="pkg-version" data-toc-text="1.0.0.9000" id="crcrdm-1009000-development-version">crcrdm 1.0.0.9000 (development version)<a class="anchor" aria-label="anchor" href="#crcrdm-1009000-development-version"></a></h2></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.0.2" id="crcrdm-102">crcrdm 1.0.2<a class="anchor" aria-label="anchor" href="#crcrdm-102"></a></h2>
+<ul><li>
+<code>experiment$write_design()</code> now writes to csv and json files (#32 and fixes #33)</li></ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.0.1" id="crcrdm-101">crcrdm 1.0.1<a class="anchor" aria-label="anchor" href="#crcrdm-101"></a></h2>
+<ul><li>implements #28, now json file don’t have to include all model inputs by @pedroliman in <a href="https://github.com/c-rutter/crcrdm/pull/29" class="external-link uri">https://github.com/c-rutter/crcrdm/pull/29</a>
+</li>
+<li>
+<code>crcmodel$set_posterior()</code> now supports weighted sample (resample = T), the full posterior (resample =F) or taking the weighted posterior mean of parameters (use_average = T) #31</li>
+<li>
+<code>crcexperiment$set_design(nlock_ids = 1:2)</code> now can be used to filter population blocks in the experimental deign @pedroliman in <a href="https://github.com/c-rutter/crcrdm/pull/27" class="external-link uri">https://github.com/c-rutter/crcrdm/pull/27</a>
+</li>
+<li>fixing typo by @pedroliman in <a href="https://github.com/c-rutter/crcrdm/pull/30" class="external-link uri">https://github.com/c-rutter/crcrdm/pull/30</a>
+</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.0" id="crcrdm-100">crcrdm 1.0.0<a class="anchor" aria-label="anchor" href="#crcrdm-100"></a></h2>
 <ul><li>First stable version of the package.</li>
