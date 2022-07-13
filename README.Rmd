@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# crcrdm: RDM and HPC tools for Cancer Screening Models
+# `crcrdm` : RDM tools for Cancer Screening Models
 
 <!-- badges: start -->
 

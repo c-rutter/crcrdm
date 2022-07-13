@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# crcrdm: High-Performance Computing and Robust Decision Making tools for Cancer Screening Models
+# `crcrdm` : RDM tools for Cancer Screening Models
 
 <!-- badges: start -->
 
@@ -16,14 +16,18 @@ Coverage](https://github.com/c-rutter/crcrdm/workflows/test-coverage/badge.svg)]
 stable](https://img.shields.io/badge/lifecycle-stable-green.svg)](https://www.tidyverse.org/lifecycle/#stable)
 <!-- badges: end -->
 
-Characterizing the robustness of policy recommendations to uncertain
-assumptions is a crucial concern of modelers. While the computational
-cost of uncertainty analyses can be high, High-Performance Computing
-(HPC) is increasingly ubiquitous and accessible. Nevertheless, using HPC
-tools involves a steep learning curve, which may hinder their adoption.
+[Robust Decision
+Making](https://www.rand.org/topics/robust-decision-making.html) is a
+set of methods and tools that help modelers inform policy under
+conditions of **deep** uncertainty. Characterizing the robustness of
+policy recommendations to uncertain assumptions is a crucial concern of
+modelers. While the computational cost of uncertainty analyses can be
+high, High-Performance Computing (HPC) is increasingly ubiquitous and
+accessible. Nevertheless, using HPC tools involves a steep learning
+curve, which may hinder their adoption.
 
 This repository houses `crcrdm` – an R package designed to facilitate
-the analysis of Cancer Screening Models using HPC resources. crcrdm
+the analysis of Cancer Screening Models using HPC resources. `crcrdm`
 provides an interface between your model and a parallel back-end - an
 HPC workflow system that orchestrates concurrent model runs. Currently,
 we use this package with EMEWS. This package aims to make it easier to
@@ -31,12 +35,12 @@ define and efficiently run large experimental designs, reducing the need
 to create ad-hoc analytical code for each analysis.
 
 The package includes features useful in ongoing analyses performed with
-the CRC-SPIN model. First, it partitions the memory usage of models to a
-manageable size (e.g., the same model run is parallelized across
-different computing processes and nodes). The package also supports
-multi-model experimental designs. This package may also help facilitate
-modeling transparency by separating the analytical workflow from the
-model.
+the [CRC-SPIN](https://pubmed.ncbi.nlm.nih.gov/20647403/) model. First,
+it partitions the memory usage of models to a manageable size (e.g., the
+same model run is parallelized across different computing processes and
+nodes). The package also supports multi-model experimental designs. This
+package may also help facilitate modeling transparency by separating the
+analytical workflow from the model.
 
 This package implements the `crcmodel` and the `crcexperiment` R6
 classes and can be used to perform Robust Decision Making Analyses of

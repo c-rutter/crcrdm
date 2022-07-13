@@ -1,5 +1,3 @@
-# crcrdm 1.0.0.9000 (development version)
-
 # crcrdm 1.0.2
 
 * `experiment$write_design()` now writes to csv and json files (#32 and fixes #33) 
