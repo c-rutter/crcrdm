@@ -102,16 +102,24 @@ set_design = function(n_lhs, blocks = 1, grid_design_df, convert_lhs_to_grid = F
 #' @param write_inputs if TRUE (default), writes model inputs to json. Might be unnecessary when inputs are set in the model run script.
 #' @param block_ids integer vector of block ids to write to json. can be used to only run specific blocks in the screening experimental design.
 #' @param format "json" or "csv". the natural history design must be written to json, whereas the screening design can be written to json or csv.
-write_design = function(path, design, write_inputs = T, block_ids, format = "json"){
+write_design = function(path, design = c("both", "natural_history", "screening"), write_inputs = T, block_ids, format = c("json","csv")){
 
-  if(missing(design)){
-    design = "both"
-  }
+  # Checking arguments, selecting defaults:
+  design <- match.arg(design)
+  format <- match.arg(format)
 
-  # If design is natural history or both, format must be json:
+  # logic rule: if design is natural history or both, format must be json:
   stopifnot(!(design %in% c("natural_history", "both") & format != "json"))
 
-  # Write JSON design to disk if user provided a json_path
+  # block_ids must be either missing or numeric:
+  if(missing(block_ids)){
+    blocks <- 1:(self$blocks)
+  } else {
+    stopifnot(is.numeric(block_ids))
+    blocks <- block_ids
+  }
+
+  # Write JSON design to disk if user provided a path
   if(!missing(path)){
 
     dir.create(path, showWarnings = F)
@@ -128,7 +136,7 @@ write_design = function(path, design, write_inputs = T, block_ids, format = "jso
                      " json rows."))
 
       write.table(x = json_exp_design,
-                  file = paste0(path,"nh_design.txt"),
+                  file = paste0(path,"/nh_design.txt"),
                   row.names = F,
                   col.names = F,
                   quote = F)
@@ -138,9 +146,9 @@ write_design = function(path, design, write_inputs = T, block_ids, format = "jso
 
       # Define name of the screening design file:
       if(!missing(block_ids)) {
-        file_name = paste0(path,"screening_design_blocks_",min(block_ids),"_",max(block_ids),".txt")
+        file_name <- paste0(path,"/screening_design_blocks_",min(block_ids),"_",max(block_ids),".txt")
       } else {
-        paste0(path,"screening_design.txt")
+        file_name <- paste0(path,"/screening_design.txt")
       }
 
 
@@ -149,13 +157,11 @@ write_design = function(path, design, write_inputs = T, block_ids, format = "jso
                                                 experimental_design = self$screening_design,
                                                 type = "screening",
                                                 write_inputs = write_inputs,
-                                                block_ids = block_ids)
+                                                block_ids = blocks)
 
         message(paste0("Writing Screening Experimental Design JSON File with ",
                        nrow(json_exp_design), " json rows.")
                 )
-
-
 
 
         write.table(x = json_exp_design,
@@ -169,7 +175,7 @@ write_design = function(path, design, write_inputs = T, block_ids, format = "jso
                                                experimental_design = self$screening_design,
                                                type = "screening",
                                                write_inputs = write_inputs,
-                                               block_ids = block_ids) %>%
+                                               block_ids = blocks) %>%
           mutate(across(where(is.logical), .fns = ~as.numeric(.x)))
 
         message(paste0("Writing Screening Experimental Design CSV File with ",
@@ -184,7 +190,7 @@ write_design = function(path, design, write_inputs = T, block_ids, format = "jso
 
         # Write column names:
         write.table(x = names(csv_exp_design),
-                  file = paste0(path,"screening_design_col_names.txt"),
+                  file = paste0(path,"/screening_design_col_names.txt"),
                   row.names = F, col.names = F, append = F, sep = ",")
 
       }

@@ -212,16 +212,25 @@ test_that("to_JSON returns a list with the experiment", {
   expect_true(length(json_exp) == 2)
 })
 
-test_that("to_JSON can write to a file", {
-  experiment$write_design(path = "json-test/", block_ids = 1)
+test_that("write_design can write to a file", {
+  experiment$write_design(path = "./json-test")
 
   expect_true(file.exists("./json-test/screening_design.txt"))
   expect_true(file.exists("./json-test/nh_design.txt"))
-
   file.remove("./json-test/screening_design.txt")
   file.remove("./json-test/nh_design.txt")
   file.remove("./json-test/")
 })
+
+test_that("write_design also can write to csv", {
+  experiment$write_design(path = "./json-test", design = "screening", format = "csv")
+  expect_true(file.exists("./json-test/screening_design.txt"))
+  expect_true(file.exists("./json-test/screening_design_col_names.txt"))
+  file.remove("./json-test/screening_design.txt")
+  file.remove("./json-test/screening_design_col_names.txt")
+  file.remove("./json-test/")
+})
+
 
 test_that("crcexperiment works with pre-existing design", {
   experiment = crcexperiment$new(model)

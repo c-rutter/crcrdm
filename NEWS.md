@@ -1,5 +1,16 @@
 # crcrdm 1.0.0.9000 (development version)
 
+# crcrdm 1.0.2
+
+* `experiment$write_design()` now writes to csv and json files (#32 and fixes #33) 
+
+# crcrdm 1.0.1
+
+* implements #28, now json file don't have to include all model inputs by @pedroliman in https://github.com/c-rutter/crcrdm/pull/29
+* `crcmodel$set_posterior()` now supports weighted sample (resample = T), the full posterior (resample =F) or taking the weighted posterior mean of parameters (use_average = T) #31
+* `crcexperiment$set_design(nlock_ids = 1:2)` now can be used to filter population blocks in the experimental deign @pedroliman in https://github.com/c-rutter/crcrdm/pull/27
+* fixing typo by @pedroliman in https://github.com/c-rutter/crcrdm/pull/30
+
 # crcrdm 1.0.0
 
 * First stable version of the package.
