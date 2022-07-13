@@ -201,9 +201,10 @@ All model inputs shoulhd be added or modified through this function. Inputs can 
 <span>  <span class="va">posteriors_list</span>,</span>
 <span>  <span class="va">posterior_weights</span>,</span>
 <span>  cols_to_ignore <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  <span class="va">n_posterior</span>,</span>
+<span>  n_posterior <span class="op">=</span> <span class="fl">1000</span>,</span>
 <span>  use_average <span class="op">=</span> <span class="cn">F</span>,</span>
-<span>  seed <span class="op">=</span> <span class="fl">12345678</span></span>
+<span>  seed <span class="op">=</span> <span class="fl">12345678</span>,</span>
+<span>  resample <span class="op">=</span> <span class="cn">T</span></span>
 <span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -231,6 +232,10 @@ All model inputs shoulhd be added or modified through this function. Inputs can 
 
 <dt><code>seed</code></dt>
 <dd><p>random seed to use when sampling from the posterior</p></dd>
+
+
+<dt><code>resample</code></dt>
+<dd><p>if T, samples from the posterior using the posterior weights. Otherwise, returns the full posterior, and preservers the weights.</p></dd>
 
 
 </dl><p></p></div>

@@ -89,7 +89,7 @@
 <ul><li><p><a href="#method-new"><code>crcexperiment$new()</code></a></p></li>
 <li><p><a href="#method-set_parameter"><code>crcexperiment$set_parameter()</code></a></p></li>
 <li><p><a href="#method-set_design"><code>crcexperiment$set_design()</code></a></p></li>
-<li><p><a href="#method-to_json"><code>crcexperiment$to_json()</code></a></p></li>
+<li><p><a href="#method-write_design"><code>crcexperiment$write_design()</code></a></p></li>
 <li><p><a href="#method-clone"><code>crcexperiment$clone()</code></a></p></li>
 </ul></div><p></p><hr><a id="method-new"></a><div class="section">
 <h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
@@ -201,16 +201,22 @@ The screening experimental design will have `blocks` \* `n_lhs` \* `n_grid_point
 </div>
 
 
-</div><p></p><hr><a id="method-to_json"></a><div class="section">
-<h3 id="method-to-json-">Method <code>to_json()</code><a class="anchor" aria-label="anchor" href="#method-to-json-"></a></h3>
-<p>Convert Experimental Design to a JSON format</p><div class="section">
+</div><p></p><hr><a id="method-write_design"></a><div class="section">
+<h3 id="method-write-design-">Method <code>write_design()</code><a class="anchor" aria-label="anchor" href="#method-write-design-"></a></h3>
+<p>Write Experimental design to disk</p><div class="section">
 <h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crcexperiment</span><span class="op">$</span><span class="fu">to_json</span><span class="op">(</span><span class="va">json_folder</span>, <span class="va">design</span>, write_inputs <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">crcexperiment</span><span class="op">$</span><span class="fu">write_design</span><span class="op">(</span></span>
+<span>  <span class="va">path</span>,</span>
+<span>  design <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"both"</span>, <span class="st">"natural_history"</span>, <span class="st">"screening"</span><span class="op">)</span>,</span>
+<span>  write_inputs <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>  <span class="va">block_ids</span>,</span>
+<span>  format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"json"</span>, <span class="st">"csv"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
 <h4 id="arguments-3">Arguments<a class="anchor" aria-label="anchor" href="#arguments-3"></a></h4>
-<p></p><div class="arguments"><dl><dt><code>json_folder</code></dt>
+<p></p><div class="arguments"><dl><dt><code>path</code></dt>
 <dd><p>folder where json experimental designs should be saved. Do not specify a file name. If missing, the function will return the design specified below.</p></dd>
 
 
@@ -220,6 +226,14 @@ The screening experimental design will have `blocks` \* `n_lhs` \* `n_grid_point
 
 <dt><code>write_inputs</code></dt>
 <dd><p>if TRUE (default), writes model inputs to json. Might be unnecessary when inputs are set in the model run script.</p></dd>
+
+
+<dt><code>block_ids</code></dt>
+<dd><p>integer vector of block ids to write to json. can be used to only run specific blocks in the screening experimental design.</p></dd>
+
+
+<dt><code>format</code></dt>
+<dd><p>"json" or "csv". the natural history design must be written to json, whereas the screening design can be written to json or csv.</p></dd>
 
 
 </dl><p></p></div>
