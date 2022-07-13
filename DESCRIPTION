@@ -1,7 +1,6 @@
 Type: Package
 Package: crcrdm
-Title: Tools for Robust Decision Making analyses for Cancer Screening
-    models
+Title: Robust Decision Making tools for cancer screening models
 Version: 1.0.2
 Author: Pedro Nascimento de Lima
 Maintainer: Pedro Nascimento de Lima <plima@rand.org>
