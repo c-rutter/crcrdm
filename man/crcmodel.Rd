@@ -146,9 +146,10 @@ Set Posterior distribution of model parameters
   posteriors_list,
   posterior_weights,
   cols_to_ignore = NULL,
-  n_posterior,
+  n_posterior = 1000,
   use_average = F,
-  seed = 12345678
+  seed = 12345678,
+  resample = T
 )}\if{html}{\out{</div>}}
 }
 
@@ -166,6 +167,8 @@ Set Posterior distribution of model parameters
 \item{\code{use_average}}{T if one wants to use the average value of all parameters rather than the mean}
 
 \item{\code{seed}}{random seed to use when sampling from the posterior}
+
+\item{\code{resample}}{if T, samples from the posterior using the posterior weights. Otherwise, returns the full posterior, and preservers the weights.}
 }
 \if{html}{\out{</div>}}
 }

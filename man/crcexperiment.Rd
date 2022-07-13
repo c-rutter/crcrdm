@@ -33,7 +33,7 @@ This class implements a `crcexperiment`.
 \item \href{#method-new}{\code{crcexperiment$new()}}
 \item \href{#method-set_parameter}{\code{crcexperiment$set_parameter()}}
 \item \href{#method-set_design}{\code{crcexperiment$set_design()}}
-\item \href{#method-to_json}{\code{crcexperiment$to_json()}}
+\item \href{#method-write_design}{\code{crcexperiment$write_design()}}
 \item \href{#method-clone}{\code{crcexperiment$clone()}}
 }
 }
@@ -132,22 +132,32 @@ The screening experimental design will have `blocks` \* `n_lhs` \* `n_grid_point
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-to_json"></a>}}
-\if{latex}{\out{\hypertarget{method-to_json}{}}}
-\subsection{Method \code{to_json()}}{
-Convert Experimental Design to a JSON format
+\if{html}{\out{<a id="method-write_design"></a>}}
+\if{latex}{\out{\hypertarget{method-write_design}{}}}
+\subsection{Method \code{write_design()}}{
+Write Experimental design to disk
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{crcexperiment$to_json(json_folder, design, write_inputs = T)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{crcexperiment$write_design(
+  path,
+  design = c("both", "natural_history", "screening"),
+  write_inputs = T,
+  block_ids,
+  format = c("json", "csv")
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{json_folder}}{folder where json experimental designs should be saved. Do not specify a file name. If missing, the function will return the design specified below.}
+\item{\code{path}}{folder where json experimental designs should be saved. Do not specify a file name. If missing, the function will return the design specified below.}
 
 \item{\code{design}}{"natural_history", "screening" or "both". If missing, "both" is assumed.}
 
 \item{\code{write_inputs}}{if TRUE (default), writes model inputs to json. Might be unnecessary when inputs are set in the model run script.}
+
+\item{\code{block_ids}}{integer vector of block ids to write to json. can be used to only run specific blocks in the screening experimental design.}
+
+\item{\code{format}}{"json" or "csv". the natural history design must be written to json, whereas the screening design can be written to json or csv.}
 }
 \if{html}{\out{</div>}}
 }
