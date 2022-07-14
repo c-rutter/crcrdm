@@ -2,3 +2,13 @@ url: https://c-rutter.github.io/crcrdm/
 template:
   bootstrap: 5
   bootswatch: flatly
+  bslib:
+    base_font: {google: "Source Sans Pro"}
+    heading_font: {google: "Source Sans Pro"}
+    code_font: {google: "Fira Code"}
+    pkgdown-nav-height: 100px
+    h1-font-size: 2.5rem
+    h2-font-size: 2rem
+#    bg: "#202123"
+#    fg: "#B8BCC2"
+#    primary: "#306cc9"
