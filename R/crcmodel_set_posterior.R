@@ -132,6 +132,10 @@ sample_from_posterior = function(posterior_data_frame, n_posterior, posterior_we
 calculate_weighted_averages = function(df, posterior_weights) {
   # Calculate a normalized_weights variable to ensure that the weighted average will be correct
   # And the weights add up to one.
+
+  # ensure this is a vanilla data.frame
+  df = as.data.frame(df)
+
   df$normalized_weights = df[,posterior_weights] / sum(df[,posterior_weights])
 
   # Calculate the weighted average for every numeric variable:

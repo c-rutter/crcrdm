@@ -157,7 +157,7 @@ write_design = function(path, design = c("both", "natural_history", "screening")
                                                 experimental_design = self$screening_design,
                                                 type = "screening",
                                                 write_inputs = write_inputs,
-                                                block_ids = blocks)
+                                                block_ids = block_ids)
 
         message(paste0("Writing Screening Experimental Design JSON File with ",
                        nrow(json_exp_design), " json rows.")
@@ -175,7 +175,8 @@ write_design = function(path, design = c("both", "natural_history", "screening")
                                                experimental_design = self$screening_design,
                                                type = "screening",
                                                write_inputs = write_inputs,
-                                               block_ids = blocks) %>%
+                                               block_ids = block_ids) %>%
+          as.data.frame() %>%
           mutate(across(where(is.logical), .fns = ~as.numeric(.x)))
 
         message(paste0("Writing Screening Experimental Design CSV File with ",
