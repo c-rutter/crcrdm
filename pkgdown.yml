@@ -1,8 +1,8 @@
-pandoc: 2.7.3
-pkgdown: 2.0.5
+pandoc: 2.19.2
+pkgdown: 2.0.7
 pkgdown_sha: ~
 articles: {}
-last_built: 2022-07-14T18:04Z
+last_built: 2023-05-16T01:53Z
 urls:
   reference: https://c-rutter.github.io/crcrdm/reference
   article: https://c-rutter.github.io/crcrdm/articles
