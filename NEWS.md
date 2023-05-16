@@ -1,3 +1,7 @@
+# crcrdm 1.0.3
+
+* fixes issue with experiments with a single natural history model. 
+
 # crcrdm 1.0.2
 
 * `experiment$write_design()` now writes to csv and json files (#32 and fixes #33) 
