@@ -37,21 +37,21 @@ set_screening_fn
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{crcmodel$new()}}
-\item \href{#method-set_input}{\code{crcmodel$set_input()}}
-\item \href{#method-to_json}{\code{crcmodel$to_json()}}
-\item \href{#method-set_inputs_from_json}{\code{crcmodel$set_inputs_from_json()}}
-\item \href{#method-set_posterior}{\code{crcmodel$set_posterior()}}
-\item \href{#method-set_natural_history_fn}{\code{crcmodel$set_natural_history_fn()}}
-\item \href{#method-set_screening_fn}{\code{crcmodel$set_screening_fn()}}
-\item \href{#method-simulate_natural_history}{\code{crcmodel$simulate_natural_history()}}
-\item \href{#method-simulate_screening}{\code{crcmodel$simulate_screening()}}
-\item \href{#method-clone}{\code{crcmodel$clone()}}
+\item \href{#method-crcmodel-new}{\code{crcmodel$new()}}
+\item \href{#method-crcmodel-set_input}{\code{crcmodel$set_input()}}
+\item \href{#method-crcmodel-to_json}{\code{crcmodel$to_json()}}
+\item \href{#method-crcmodel-set_inputs_from_json}{\code{crcmodel$set_inputs_from_json()}}
+\item \href{#method-crcmodel-set_posterior}{\code{crcmodel$set_posterior()}}
+\item \href{#method-crcmodel-set_natural_history_fn}{\code{crcmodel$set_natural_history_fn()}}
+\item \href{#method-crcmodel-set_screening_fn}{\code{crcmodel$set_screening_fn()}}
+\item \href{#method-crcmodel-simulate_natural_history}{\code{crcmodel$simulate_natural_history()}}
+\item \href{#method-crcmodel-simulate_screening}{\code{crcmodel$simulate_screening()}}
+\item \href{#method-crcmodel-clone}{\code{crcmodel$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-crcmodel-new"></a>}}
+\if{latex}{\out{\hypertarget{method-crcmodel-new}{}}}
 \subsection{Method \code{new()}}{
 Create a new `crcmodel` object.
 \subsection{Usage}{
@@ -70,8 +70,8 @@ s new `crcmodel` object.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-set_input"></a>}}
-\if{latex}{\out{\hypertarget{method-set_input}{}}}
+\if{html}{\out{<a id="method-crcmodel-set_input"></a>}}
+\if{latex}{\out{\hypertarget{method-crcmodel-set_input}{}}}
 \subsection{Method \code{set_input()}}{
 Set Input
 \subsection{Usage}{
@@ -96,8 +96,8 @@ All model inputs shoulhd be added or modified through this function. Inputs can 
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-to_json"></a>}}
-\if{latex}{\out{\hypertarget{method-to_json}{}}}
+\if{html}{\out{<a id="method-crcmodel-to_json"></a>}}
+\if{latex}{\out{\hypertarget{method-crcmodel-to_json}{}}}
 \subsection{Method \code{to_json()}}{
 Converts a `crcmodel` to a JSON string
 \subsection{Usage}{
@@ -116,8 +116,8 @@ a JSON string containing the crcmodel objects that should be exported
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-set_inputs_from_json"></a>}}
-\if{latex}{\out{\hypertarget{method-set_inputs_from_json}{}}}
+\if{html}{\out{<a id="method-crcmodel-set_inputs_from_json"></a>}}
+\if{latex}{\out{\hypertarget{method-crcmodel-set_inputs_from_json}{}}}
 \subsection{Method \code{set_inputs_from_json()}}{
 Set model Inputs from JSON string
 \subsection{Usage}{
@@ -137,8 +137,8 @@ Use this function to set model inputs from a JSON string. Note that the posterio
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-set_posterior"></a>}}
-\if{latex}{\out{\hypertarget{method-set_posterior}{}}}
+\if{html}{\out{<a id="method-crcmodel-set_posterior"></a>}}
+\if{latex}{\out{\hypertarget{method-crcmodel-set_posterior}{}}}
 \subsection{Method \code{set_posterior()}}{
 Set Posterior distribution of model parameters
 \subsection{Usage}{
@@ -179,8 +179,8 @@ All model inputs shoulhd be added or modified through this function. Inputs can 
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-set_natural_history_fn"></a>}}
-\if{latex}{\out{\hypertarget{method-set_natural_history_fn}{}}}
+\if{html}{\out{<a id="method-crcmodel-set_natural_history_fn"></a>}}
+\if{latex}{\out{\hypertarget{method-crcmodel-set_natural_history_fn}{}}}
 \subsection{Method \code{set_natural_history_fn()}}{
 Set Natural History Function
 \subsection{Usage}{
@@ -206,8 +206,8 @@ Use this function to define a natural history function. You are advised to creat
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-set_screening_fn"></a>}}
-\if{latex}{\out{\hypertarget{method-set_screening_fn}{}}}
+\if{html}{\out{<a id="method-crcmodel-set_screening_fn"></a>}}
+\if{latex}{\out{\hypertarget{method-crcmodel-set_screening_fn}{}}}
 \subsection{Method \code{set_screening_fn()}}{
 Set Screening Function
 \subsection{Usage}{
@@ -229,8 +229,8 @@ This function allows the user to have a custom screening function.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-simulate_natural_history"></a>}}
-\if{latex}{\out{\hypertarget{method-simulate_natural_history}{}}}
+\if{html}{\out{<a id="method-crcmodel-simulate_natural_history"></a>}}
+\if{latex}{\out{\hypertarget{method-crcmodel-simulate_natural_history}{}}}
 \subsection{Method \code{simulate_natural_history()}}{
 Simulate Natural History Wrapper Function
 \subsection{Usage}{
@@ -250,8 +250,8 @@ This function is a wrapper around the user natural history function. It passes t
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-simulate_screening"></a>}}
-\if{latex}{\out{\hypertarget{method-simulate_screening}{}}}
+\if{html}{\out{<a id="method-crcmodel-simulate_screening"></a>}}
+\if{latex}{\out{\hypertarget{method-crcmodel-simulate_screening}{}}}
 \subsection{Method \code{simulate_screening()}}{
 Simulate Screening Wrapper Function
 \subsection{Usage}{
@@ -271,8 +271,8 @@ This function is a wrapper around the user screening. It passes the `self` objec
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-crcmodel-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-crcmodel-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

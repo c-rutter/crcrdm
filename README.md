@@ -14,13 +14,13 @@ Coverage](https://github.com/c-rutter/crcrdm/workflows/test-coverage/badge.svg)]
 [![codecov](https://codecov.io/gh/c-rutter/crcrdm/branch/master/graph/badge.svg?token=G4E73T9WOO)](https://codecov.io/gh/c-rutter/crcrdm)
 [![Lifecycle:
 stable](https://img.shields.io/badge/lifecycle-stable-green.svg)](https://www.tidyverse.org/lifecycle/#stable)
-<!-- badges: end --> [Robust Decision
-Making](https://www.rand.org/topics/robust-decision-making.html) is a
-set of methods and tools that help modelers inform policy under
-conditions of deep uncertainty. Characterizing the robustness of policy
-recommendations to uncertain assumptions is a crucial concern of
-modelers. While the computational cost of uncertainty analyses can be
-high, High-Performance Computing (HPC) is increasingly ubiquitous and
+<!-- badges: end --> Robust Decision Making is a set of methods and
+tools that help modelers inform policy under conditions of deep
+uncertainty. Characterizing the robustness of policy recommendations to
+uncertain assumptions is a crucial concern of modelers.
+
+While the computational cost of uncertainty analyses can be high,
+High-Performance Computing (HPC) is increasingly ubiquitous and
 accessible. Nevertheless, using HPC tools involves a steep learning
 curve, which may hinder their adoption.
 
@@ -64,14 +64,15 @@ describes the package main classes and their methods.
 
 ## Key classes
 
-This package implements two R6 classes:
+This package implements two `R6` classes:
 
-1.  `crcmodel` : Is the basic unit and encompasses a single model
-    structure. A `crcmodel` can be either calibrated or not. if it is
-    calibrated, the model object can include the posterior distribution
-    of its parameters. A single model may contain multiple posterior
-    distributions when those parameter sets were created by different
-    calibration runs, with potentially different targets or priors.
+1.  `crcmodel` : An `R6` class representing single model structure and
+    its posterior distribution. A `crcmodel` can be either calibrated or
+    not. if it is calibrated, the model object can include the posterior
+    distribution of its parameters. A single model may contain multiple
+    posterior distributions when those parameter sets were created by
+    different calibration runs, with potentially different targets or
+    priors.
 2.  `crcexperiment` : Contains the definition of an experiment
     experiment to be applied over the `crcmodel`s included in it.
 

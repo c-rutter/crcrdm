@@ -22,7 +22,9 @@ knitr::opts_chunk$set(
 [![codecov](https://codecov.io/gh/c-rutter/crcrdm/branch/master/graph/badge.svg?token=G4E73T9WOO)](https://codecov.io/gh/c-rutter/crcrdm)
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-green.svg)](https://www.tidyverse.org/lifecycle/#stable)
 <!-- badges: end -->
-[Robust Decision Making](https://www.rand.org/topics/robust-decision-making.html) is a set of methods and tools that help modelers inform policy under conditions of deep uncertainty. Characterizing the robustness of policy recommendations to uncertain assumptions is a crucial concern of modelers. While the computational cost of uncertainty analyses can be high, High-Performance Computing (HPC) is increasingly ubiquitous and accessible. Nevertheless, using HPC tools involves a steep learning curve, which may hinder their adoption.
+Robust Decision Making is a set of methods and tools that help modelers inform policy under conditions of deep uncertainty. Characterizing the robustness of policy recommendations to uncertain assumptions is a crucial concern of modelers. 
+
+While the computational cost of uncertainty analyses can be high, High-Performance Computing (HPC) is increasingly ubiquitous and accessible. Nevertheless, using HPC tools involves a steep learning curve, which may hinder their adoption.
 
 This repository houses `crcrdm` – an R package designed to facilitate the analysis of Cancer Screening Models using HPC resources. `crcrdm` provides an interface between your model and a parallel back-end - an HPC workflow system that orchestrates concurrent model runs. Currently, we use this package with EMEWS. This package aims to make it easier to define and efficiently run large experimental designs, reducing the need to create ad-hoc analytical code for each analysis.
 
@@ -42,7 +44,7 @@ remotes::install_github("c-rutter/crcrdm")
 
 ## Status
 
-This package is being actively used by the crcspin model, which itself is not contained in the package. The user pool for this package is very small and we have no plans of releasing it to CRAN at this time. Future iterations of this work might make this package more general. If you would like to use this package and are interested in collaborating with us, get in touch.
+This package is being used by the CRC-SPIN modeling team, but the CRC-SPIN model is not contained in the package. The user pool for this package is very small and we have no plans of releasing it to CRAN at this time. Future iterations of this work might make this package more general. If you would like to use this package and are interested in collaborating with us, get in touch.
 
 ## Documentation
 
@@ -50,9 +52,9 @@ A documentation page is available [at this link](https://c-rutter.github.io/crcr
 
 ## Key classes
 
-This package implements two R6 classes:
+This package implements two `R6` classes:
 
-1.  `crcmodel` : Is the basic unit and encompasses a single model structure. A `crcmodel` can be either calibrated or not. if it is calibrated, the model object can include the posterior distribution of its parameters. A single model may contain multiple posterior distributions when those parameter sets were created by different calibration runs, with potentially different targets or priors.
+1.  `crcmodel` : An `R6` class representing single model structure and its posterior distribution. A `crcmodel` can be either calibrated or not. if it is calibrated, the model object can include the posterior distribution of its parameters. A single model may contain multiple posterior distributions when those parameter sets were created by different calibration runs, with potentially different targets or priors.
 2.  `crcexperiment` : Contains the definition of an experiment experiment to be applied over the `crcmodel`s included in it.
 
 ## Automated Tests

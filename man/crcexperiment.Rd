@@ -30,16 +30,16 @@ This class implements a `crcexperiment`.
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{crcexperiment$new()}}
-\item \href{#method-set_parameter}{\code{crcexperiment$set_parameter()}}
-\item \href{#method-set_design}{\code{crcexperiment$set_design()}}
-\item \href{#method-write_design}{\code{crcexperiment$write_design()}}
-\item \href{#method-clone}{\code{crcexperiment$clone()}}
+\item \href{#method-crcexperiment-new}{\code{crcexperiment$new()}}
+\item \href{#method-crcexperiment-set_parameter}{\code{crcexperiment$set_parameter()}}
+\item \href{#method-crcexperiment-set_design}{\code{crcexperiment$set_design()}}
+\item \href{#method-crcexperiment-write_design}{\code{crcexperiment$write_design()}}
+\item \href{#method-crcexperiment-clone}{\code{crcexperiment$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-crcexperiment-new"></a>}}
+\if{latex}{\out{\hypertarget{method-crcexperiment-new}{}}}
 \subsection{Method \code{new()}}{
 This function is used to initialize a `crcexperiment` object. This object represents an experiment that will be run and can encompass multiple models.
 \subsection{Usage}{
@@ -58,8 +58,8 @@ a new `crcexperiment` object.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-set_parameter"></a>}}
-\if{latex}{\out{\hypertarget{method-set_parameter}{}}}
+\if{html}{\out{<a id="method-crcexperiment-set_parameter"></a>}}
+\if{latex}{\out{\hypertarget{method-crcexperiment-set_parameter}{}}}
 \subsection{Method \code{set_parameter()}}{
 Set Experimental Parameter for the Experiment
 \subsection{Usage}{
@@ -95,8 +95,8 @@ Every parameter defined in this function can be accessed within the model by usi
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-set_design"></a>}}
-\if{latex}{\out{\hypertarget{method-set_design}{}}}
+\if{html}{\out{<a id="method-crcexperiment-set_design"></a>}}
+\if{latex}{\out{\hypertarget{method-crcexperiment-set_design}{}}}
 \subsection{Method \code{set_design()}}{
 Set Experimental Design
 \subsection{Usage}{
@@ -132,8 +132,8 @@ The screening experimental design will have `blocks` \* `n_lhs` \* `n_grid_point
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-write_design"></a>}}
-\if{latex}{\out{\hypertarget{method-write_design}{}}}
+\if{html}{\out{<a id="method-crcexperiment-write_design"></a>}}
+\if{latex}{\out{\hypertarget{method-crcexperiment-write_design}{}}}
 \subsection{Method \code{write_design()}}{
 Write Experimental design to disk
 \subsection{Usage}{
@@ -167,8 +167,8 @@ Creates a data.frame in which each row represents a single experiment. The json 
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-crcexperiment-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-crcexperiment-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{
