@@ -7,8 +7,6 @@
 
 [![Build & R-CMD
 Check](https://github.com/c-rutter/crcrdm/workflows/R-CMD-check/badge.svg)](https://github.com/c-rutter/crcrdm/actions)
-[![Build & R-CMD Check -
-full](https://github.com/c-rutter/crcrdm/workflows/R-CMD-check-full/badge.svg)](https://github.com/c-rutter/crcrdm/actions)
 [![Test
 Coverage](https://github.com/c-rutter/crcrdm/workflows/test-coverage/badge.svg)](https://github.com/c-rutter/crcrdm/actions)
 [![codecov](https://codecov.io/gh/c-rutter/crcrdm/branch/master/graph/badge.svg?token=G4E73T9WOO)](https://codecov.io/gh/c-rutter/crcrdm)
@@ -49,12 +47,12 @@ remotes::install_github("c-rutter/crcrdm")
 
 ## Status
 
-This package is being actively used by the crcspin model, which itself
-is not contained in the package. The user pool for this package is very
-small and we have no plans of releasing it to CRAN at this time. Future
-iterations of this work might make this package more general. If you
-would like to use this package and are interested in collaborating with
-us, get in touch.
+This package is being used by the CRC-SPIN modeling team, but the
+CRC-SPIN model is not contained in the package. The user pool for this
+package is very small and we have no plans of releasing it to CRAN at
+this time. Future iterations of this work might make this package more
+general. If you would like to use this package and are interested in
+collaborating with us, get in touch.
 
 ## Documentation
 
