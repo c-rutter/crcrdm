@@ -24,7 +24,7 @@
 #' @export
 crcmodel <- R6::R6Class(
   classname = "crcmodel",
-  # Use public to expose methods of this class:
+  # Use public to expose methods of this class
   public = list(
 
     #' @field name is a character string representing the model name (e.g. CRC-SPIN v 2.1)
